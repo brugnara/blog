@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <title>Advanced DevOps  | High Availability</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="generator" content="Hugo 0.58.3" />
+    
+    
+      <META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
+    
+
+    
+    
+      <link href="/dist/css/app.d98f2eb6bcd1eaedb7edf166bd16af26.css" rel="stylesheet">
+    
+
+    
+
+    
+      
+    
+
+    
+    
+    <meta property="og:title" content="High Availability" />
+<meta property="og:description" content="Having a good software is not enough. Just ask GitLab IT guys about what recently happened.
+Intro Speaking about a production environment, you can not trust your servers. Never trust your system.
+Every single service must be in HA. But, what is HA?
+This short post, will introduce you to HA, this is not a full guide but a simple use case explanation.
+HA in a nutshell HA is when you have at least two resources, working alone or together." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://blog.brugnara.me/2017/02/11/high-availability/" />
+<meta property="article:published_time" content="2017-02-11T07:50:17+00:00" />
+<meta property="article:modified_time" content="2017-02-11T07:50:17+00:00" />
+<meta itemprop="name" content="High Availability">
+<meta itemprop="description" content="Having a good software is not enough. Just ask GitLab IT guys about what recently happened.
+Intro Speaking about a production environment, you can not trust your servers. Never trust your system.
+Every single service must be in HA. But, what is HA?
+This short post, will introduce you to HA, this is not a full guide but a simple use case explanation.
+HA in a nutshell HA is when you have at least two resources, working alone or together.">
+
+
+<meta itemprop="datePublished" content="2017-02-11T07:50:17&#43;00:00" />
+<meta itemprop="dateModified" content="2017-02-11T07:50:17&#43;00:00" />
+<meta itemprop="wordCount" content="373">
+
+
+
+<meta itemprop="keywords" content="" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="High Availability"/>
+<meta name="twitter:description" content="Having a good software is not enough. Just ask GitLab IT guys about what recently happened.
+Intro Speaking about a production environment, you can not trust your servers. Never trust your system.
+Every single service must be in HA. But, what is HA?
+This short post, will introduce you to HA, this is not a full guide but a simple use case explanation.
+HA in a nutshell HA is when you have at least two resources, working alone or together."/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+    
+   
+  
+
+  <header>
+    <div class="bg-black">
+      <nav class="pv3 ph3 ph4-ns" role="navigation">
+  <div class="flex-l justify-between items-center center">
+    <a href="https://blog.brugnara.me/" class="f3 fw2 hover-white no-underline white-90 dib">
+      Advanced DevOps
+    </a>
+    <div class="flex-l items-center">
+      
+
+      
+      
+
+
+
+
+
+
+
+
+
+
+
+    </div>
+  </div>
+</nav>
+
+    </div>
+  </header>
+
+
+
+    <main class="pb7" role="main">
+      
+  
+  <article class="flex-l flex-wrap justify-between mw8 center ph3">
+
+    <header class="mt4 w-100">
+      <p class="f6 b helvetica tracked">
+          
+        POSTS
+      </p>
+      <h1 class="f1 athelas mb1">High Availability</h1>
+      
+      <p class="tracked">
+         By <strong>Daniele Brugnara</strong>
+      </p>
+      
+      
+      <time class="f6 mv4 dib tracked" datetime="2017-02-11T07:50:17Z">February 11, 2017</time>
+      
+      
+    </header>
+
+    <section class="nested-copy-line-height lh-copy serif f4 nested-links nested-img mid-gray pr4-l w-two-thirds-l">
+
+<p>Having a good software is not enough. Just ask GitLab IT guys about <a href="https://docs.google.com/document/d/1GCK53YDcBWQveod9kfzW-VCxIABGiryG7_z_6jHdVik/pub">what recently happened</a>.</p>
+
+<h2 id="intro">Intro</h2>
+
+<p>Speaking about a production environment, you can not trust your servers. Never trust your system.</p>
+
+<p>Every single service must be in HA. But, what is HA?</p>
+
+<p>This short post, will introduce you to HA, this is not a full guide but a simple use case explanation.</p>
+
+<h2 id="ha-in-a-nutshell">HA in a nutshell</h2>
+
+<p>HA is when you have at least two resources, working alone or together. The goal is to have al least one working resource if one fails.</p>
+
+<p>You can provide HA in different ways, choose the one you prefer depending on your situation and knowledges, here&rsquo;s a short list</p>
+
+<ul>
+<li>shared IP</li>
+<li>load balancer</li>
+<li>live migration</li>
+</ul>
+
+<h2 id="the-best-ha-solution">The best HA solution</h2>
+
+<p>There is not a best solution that fits each case. You have to understand what is best for you and read the documentation, first.</p>
+
+<h2 id="real-application">Real application</h2>
+
+<p>When you have to deploy, you have to guarantee your customers to not have downtime. For a zero downtime deploy, you have to rely on HA. In our server farm, we have two servers for our api service. Those servers are in a round-robin configuration, handled by a shared IP HAproxy. When an api server is shutted down, HAproxy sends all the requests to the one server alive. Then the server is started with the new version, and requests are sent to both servers again. After a few seconds, we shut down the other one and the circle is closed with no downtime.</p>
+
+<p>All this process is handled with a simple deploy script. We are planning to move to Jenkins, but for now a simple bash fits as a fiddle.</p>
+
+<h2 id="microservices">Microservices</h2>
+
+<p>As I told in a previous post, if you want to split the codebase in many microservices, you also have to think about HA them.</p>
+
+<h2 id="haproxy">HAproxy</h2>
+
+<p>Here&rsquo;s an example for a round-robin configuration for a web service, with a third server as backup. The <code>backup</code> is used only if both <code>server01</code> and <code>server02</code> are down.</p>
+
+<pre><code>backend sms.freeluna.it
+  mode http
+  server server01.brugnara.me 192.168.10.51:8080 check port 8080
+  server server02.brugnara.me 192.168.10.52:8080 check port 8080
+  server backup01.brugnara.me 192.168.10.151:8080 check port 8080 backup
+  balance roundrobin
+  option forwardfor
+  option httpclose
+  option http-server-close
+  option httpchk GET /alive HTTP/1.1
+</code></pre>
+<ul class="pa0">
+  
+</ul>
+<div class="mt6">
+      
+      
+      </div>
+      <div id="disqus_thread"></div>
+<script>
+
+
+
+
+var disqus_config = function () {
+this.page.url = 'https:\/\/blog.brugnara.me\/2017\/02\/11\/high-availability\/';  
+this.page.identifier = 'b0b940450eeb003818ac92f7d0be6fa3'; 
+};
+
+(function() { 
+var d = document, s = d.createElement('script');
+s.src = 'https://brugnara.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+    </section>
+
+    <aside class="w-30-l mt6-l">
+
+
+
+
+</aside>
+  </article>
+
+
+    </main>
+    <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
+  <div class="flex justify-between">
+  <a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href="https://blog.brugnara.me/" >
+    &copy; 2019 Advanced DevOps
+  </a>
+    <div>
+
+
+
+
+
+
+
+
+
+
+</div>
+  </div>
+</footer>
+
+    
+
+  <script src="/dist/js/app.3fc0f988d21662902933.js"></script>
+
+
+  </body>
+</html>

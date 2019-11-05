@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <title>Advanced DevOps  | GNU awk is required for lib/memtype.h made by memtypes.awk. BSD awk complains: awk: gensub doesn&#39;t support backreferences (subst &#34;\1&#34;)</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="generator" content="Hugo 0.58.3" />
+    
+    
+      <META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
+    
+
+    
+    
+      <link href="/dist/css/app.d98f2eb6bcd1eaedb7edf166bd16af26.css" rel="stylesheet">
+    
+
+    
+
+    
+      
+    
+
+    
+    
+    <meta property="og:title" content="GNU awk is required for lib/memtype.h made by memtypes.awk. BSD awk complains: awk: gensub doesn&#39;t support backreferences (subst &#34;\1&#34;)" />
+<meta property="og:description" content="This error is given when you try to compile quagga.
+The easy solution is to
+ tested with Debian 8 and Quagga 1.2.1
+ apt-get install -y gawk  Compile quagga If you need more help, here&rsquo;s the list of the needed dependencies to compile correctly.
+apt-get install -y build-essential gawk libreadline-dev pkg-config libc-ares-dev  After this, a simple
+./configure [options] make &amp;&amp; make install  will do the rest." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://blog.brugnara.me/2017/04/18/gnu-awk-is-required-for-lib/memtype.h-made-by-memtypes.awk.-bsd-awk-complains-awk-gensub-doesnt-support-backreferences-subst-%5C1/" />
+<meta property="article:published_time" content="2017-04-18T05:54:25+00:00" />
+<meta property="article:modified_time" content="2017-04-18T05:54:25+00:00" />
+<meta itemprop="name" content="GNU awk is required for lib/memtype.h made by memtypes.awk. BSD awk complains: awk: gensub doesn&#39;t support backreferences (subst &#34;\1&#34;)">
+<meta itemprop="description" content="This error is given when you try to compile quagga.
+The easy solution is to
+ tested with Debian 8 and Quagga 1.2.1
+ apt-get install -y gawk  Compile quagga If you need more help, here&rsquo;s the list of the needed dependencies to compile correctly.
+apt-get install -y build-essential gawk libreadline-dev pkg-config libc-ares-dev  After this, a simple
+./configure [options] make &amp;&amp; make install  will do the rest.">
+
+
+<meta itemprop="datePublished" content="2017-04-18T05:54:25&#43;00:00" />
+<meta itemprop="dateModified" content="2017-04-18T05:54:25&#43;00:00" />
+<meta itemprop="wordCount" content="72">
+
+
+
+<meta itemprop="keywords" content="" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="GNU awk is required for lib/memtype.h made by memtypes.awk. BSD awk complains: awk: gensub doesn&#39;t support backreferences (subst &#34;\1&#34;)"/>
+<meta name="twitter:description" content="This error is given when you try to compile quagga.
+The easy solution is to
+ tested with Debian 8 and Quagga 1.2.1
+ apt-get install -y gawk  Compile quagga If you need more help, here&rsquo;s the list of the needed dependencies to compile correctly.
+apt-get install -y build-essential gawk libreadline-dev pkg-config libc-ares-dev  After this, a simple
+./configure [options] make &amp;&amp; make install  will do the rest."/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+    
+   
+  
+
+  <header>
+    <div class="bg-black">
+      <nav class="pv3 ph3 ph4-ns" role="navigation">
+  <div class="flex-l justify-between items-center center">
+    <a href="https://blog.brugnara.me/" class="f3 fw2 hover-white no-underline white-90 dib">
+      Advanced DevOps
+    </a>
+    <div class="flex-l items-center">
+      
+
+      
+      
+
+
+
+
+
+
+
+
+
+
+
+    </div>
+  </div>
+</nav>
+
+    </div>
+  </header>
+
+
+
+    <main class="pb7" role="main">
+      
+  
+  <article class="flex-l flex-wrap justify-between mw8 center ph3">
+
+    <header class="mt4 w-100">
+      <p class="f6 b helvetica tracked">
+          
+        POSTS
+      </p>
+      <h1 class="f1 athelas mb1">GNU awk is required for lib/memtype.h made by memtypes.awk. BSD awk complains: awk: gensub doesn&#39;t support backreferences (subst &#34;\1&#34;)</h1>
+      
+      <p class="tracked">
+         By <strong>Daniele Brugnara</strong>
+      </p>
+      
+      
+      <time class="f6 mv4 dib tracked" datetime="2017-04-18T05:54:25Z">April 18, 2017</time>
+      
+      
+    </header>
+
+    <section class="nested-copy-line-height lh-copy serif f4 nested-links nested-img mid-gray pr4-l w-two-thirds-l">
+
+<p>This error is given when you try to compile <code>quagga</code>.</p>
+
+<p>The easy solution is to</p>
+
+<blockquote>
+<p>tested with Debian 8 and Quagga 1.2.1</p>
+</blockquote>
+
+<pre><code>apt-get install -y gawk
+</code></pre>
+
+<h2 id="compile-quagga">Compile quagga</h2>
+
+<p>If you need more help, here&rsquo;s the list of the needed dependencies to compile correctly.</p>
+
+<pre><code>apt-get install -y build-essential gawk libreadline-dev pkg-config libc-ares-dev
+</code></pre>
+
+<p>After this, a simple</p>
+
+<pre><code>./configure [options]
+make &amp;&amp; make install
+</code></pre>
+
+<p>will do the rest. Check <a href="http://www.nongnu.org/quagga/docs/docs-multi/The-Configure-script-and-its-options.html#The-Configure-script-and-its-options">this link</a> for the <code>./configure</code> options.</p>
+<ul class="pa0">
+  
+</ul>
+<div class="mt6">
+      
+      
+      </div>
+      <div id="disqus_thread"></div>
+<script>
+
+
+
+
+var disqus_config = function () {
+this.page.url = 'https:\/\/blog.brugnara.me\/2017\/04\/18\/gnu-awk-is-required-for-lib\/memtype.h-made-by-memtypes.awk.-bsd-awk-complains-awk-gensub-doesnt-support-backreferences-subst-%5C1\/';  
+this.page.identifier = 'ee6277483d0aeda016bdb07bb0e632f5'; 
+};
+
+(function() { 
+var d = document, s = d.createElement('script');
+s.src = 'https://brugnara.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+    </section>
+
+    <aside class="w-30-l mt6-l">
+
+
+
+
+</aside>
+  </article>
+
+
+    </main>
+    <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
+  <div class="flex justify-between">
+  <a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href="https://blog.brugnara.me/" >
+    &copy; 2019 Advanced DevOps
+  </a>
+    <div>
+
+
+
+
+
+
+
+
+
+
+</div>
+  </div>
+</footer>
+
+    
+
+  <script src="/dist/js/app.3fc0f988d21662902933.js"></script>
+
+
+  </body>
+</html>

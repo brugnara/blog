@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  
+  <url>
+    <loc>https://blog.brugnara.me/</loc>
+    <lastmod>2019-05-03T07:45:47+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.brugnara.me/2019/05/03/disable-su-on-debian/</loc>
+    <lastmod>2019-05-03T07:45:47+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.brugnara.me/post/</loc>
+    <lastmod>2019-05-03T07:45:47+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.brugnara.me/2017/04/18/gnu-awk-is-required-for-lib/memtype.h-made-by-memtypes.awk.-bsd-awk-complains-awk-gensub-doesnt-support-backreferences-subst-%5C1/</loc>
+    <lastmod>2017-04-18T05:54:25+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.brugnara.me/2017/04/15/keepalived-virtual-ip-plus-alerting/</loc>
+    <lastmod>2017-04-15T10:10:58+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.brugnara.me/2017/04/15/dd-monitor-current-status-and-speed/</loc>
+    <lastmod>2017-04-15T09:31:39+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.brugnara.me/2017/04/15/openvpn-tap-vs-tun-differences/</loc>
+    <lastmod>2017-04-15T09:05:39+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.brugnara.me/2017/04/15/debian-preseed-prompt-user-input/</loc>
+    <lastmod>2017-04-15T08:49:10+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.brugnara.me/2017/03/18/advanced-provisioning-with-simple-cdd-and-git/</loc>
+    <lastmod>2017-03-18T16:44:16+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.brugnara.me/2017/03/18/dhcpd-name-your-machines/</loc>
+    <lastmod>2017-03-18T16:17:40+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.brugnara.me/2017/03/18/proxmox-net-card-association-with-udev/</loc>
+    <lastmod>2017-03-18T16:08:03+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.brugnara.me/2017/03/18/simple-cdd.-a-way-to-provision-you-machines-effortless/</loc>
+    <lastmod>2017-03-18T15:56:17+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.brugnara.me/2017/02/11/high-availability/</loc>
+    <lastmod>2017-02-11T07:50:17+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.brugnara.me/2017/01/31/are-microservices-bad/</loc>
+    <lastmod>2017-01-31T09:54:43+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.brugnara.me/2017/01/28/ghost.-a-fresh-start/</loc>
+    <lastmod>2017-01-28T08:13:13+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.brugnara.me/categories/</loc>
+  </url>
+  
+  <url>
+    <loc>https://blog.brugnara.me/tags/</loc>
+  </url>
+  
+</urlset>

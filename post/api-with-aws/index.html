@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>API with AWS</title>
+		<link rel="alternate" type="application/rss+xml" title="RSS" href="http://example.org/index.xml">
+		<link rel="canonical" href="http://example.org/post/api-with-aws/">
+		
+		<link rel="shortcut icon" type="image/png" href="http://example.org/apple-touch-icon-precomposed.png">
+		
+		
+		<meta name="generator" content="Hugo 0.58.3" />
+
+		
+		<meta property="og:title" content="API with AWS" />
+		<meta property="og:type" content="article" />
+		<meta property="og:image" content="http://example.org/img/default-header-img.jpg" />
+		<meta property="og:description" content="" />
+		<meta property="og:url" content="http://example.org/post/api-with-aws/" />
+		<meta property="og:site_name" content="API with AWS" />
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:site" content="@" />
+
+
+		
+		<link rel="stylesheet" href="http://example.org/css/tachyons.min.css" />
+		<link rel="stylesheet" href="http://example.org/css/story.css" />
+		<link rel="stylesheet" href="http://example.org/css/descartes.css" />
+		
+		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+		<link href="https://fonts.googleapis.com/css?family=Quattrocento+Sans:400,400i,700,700i|Quattrocento:400,700|Spectral:400,400i,700,700i&amp;subset=latin-ext" rel="stylesheet">
+		
+
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+		
+		<script src="http://example.org/js/story.js"></script>
+
+	</head>
+	<body class="ma0 bg-white section-post page-kind-page is-page-true ">
+		
+		<header class="cover bg-top" style="background-image: url('http://example.org/img/default-header-img.jpg'); background-position: center;">
+			<div class="bg-black-30 bb bt">
+
+				<nav class="hide-print sans-serif  border-box pa3 ph5-l">
+					<a href="http://example.org/" title="Home">
+						<img src="http://example.org/img/logo.jpg" class="w2 h2 br-100" alt="My New Hugo Site" />
+					</a>
+					<div class="fr h2 pv2 tr">
+						<a class="link f5 ml2 dim near-white fas fa-rss-square" href="http://example.org/index.xml" title="RSS Feed"></a>
+						<a class="link f5 ml2 dim near-white fas fa-search" href="http://example.org/search/" role="search" title="Search"></a>
+					</div>
+				</nav>
+
+				<div id="hdr" class="tc-l pv4-ns pv5-l pv2 ph3 ph4-ns">
+					<h1 class="near-white mt1-ns f2 fw3 mb0 mt0 lh-title">API with AWS</h1>
+					<h2 class="near-white mt3-l mb4-l fw1 f6 f3-l measure-wide-l center lh-copy mt2 mb3">
+						
+						
+							
+								Published
+								<time datetime="2019-03-15T13:07:06Z">Mar 15, 2019</time>
+								<span class="display-print">by Daniele Brugnara</span>
+								
+								<span class="display-print">at http://example.org/post/api-with-aws/</span>
+							
+						
+					</h2>
+				</div>
+
+				
+				
+				
+				
+
+			</div>
+		</header>
+		
+		<main role="main">
+		
+<article class="center bg-white br-3 pv1 ph4 lh-copy f5 nested-links mw7">
+	
+
+<p>Writing a modern web app requires you to have a backend.
+You have some users you want to let see something specific.</p>
+
+<blockquote>
+<p>I&rsquo;m assuming that you already have a working AWS account</p>
+</blockquote>
+
+<h2 id="introduction-to-some-components">Introduction to some components</h2>
+
+<h3 id="api-gateway">API Gateway</h3>
+
+<p>Is the &ldquo;thing&rdquo; that accepts connections from the outside and commutes requests to something that is behind him. In our case, the responders are our Lambda functions.</p>
+
+<h3 id="lambda">Lambda</h3>
+
+<p>Is where we write our logic. Javascript, .NET, Java, Python. It doesn&rsquo;t event matter: you write a Lambda in the language of your choice.</p>
+
+<p>Every Lambda are executed in a protected environment, just like containers, and are billed for the execution time multiplied
+by the number of RAM used; time is rounded to the upper 100ms. The complete cost explanation is available <a href="https://aws.amazon.com/lambda/pricing/">here</a>.</p>
+
+<p><strong>Note:</strong> each 1Gb of RAM also means you have a full vCPU so bear this in mind while you allocate resources to your Lambdas and not just the amount of RAM used by executing your code. You may want 2vCPU because your task has to do many calculations, so give 2Gb RAM and you are done.</p>
+
+<p>A Lambda, is called by the API Gateway with an event object which is something like this:</p>
+
+<pre><code class="language-json">{
+  &quot;body&quot;: &quot;eyJ0ZXN0IjoiYm9keSJ9&quot;,
+  &quot;resource&quot;: &quot;/{proxy+}&quot;,
+  &quot;path&quot;: &quot;/path/to/resource&quot;,
+  &quot;httpMethod&quot;: &quot;POST&quot;,
+  &quot;isBase64Encoded&quot;: true,
+  &quot;queryStringParameters&quot;: {
+    &quot;foo&quot;: &quot;bar&quot;
+  },
+  &quot;pathParameters&quot;: {
+    &quot;proxy&quot;: &quot;/path/to/resource&quot;
+  },
+  &quot;stageVariables&quot;: {
+    &quot;baz&quot;: &quot;qux&quot;
+  },
+  &quot;headers&quot;: {
+    &quot;Accept&quot;: &quot;text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8&quot;,
+    &quot;Accept-Encoding&quot;: &quot;gzip, deflate, sdch&quot;,
+    &quot;Accept-Language&quot;: &quot;en-US,en;q=0.8&quot;,
+    &quot;Cache-Control&quot;: &quot;max-age=0&quot;,
+    &quot;CloudFront-Forwarded-Proto&quot;: &quot;https&quot;,
+    &quot;CloudFront-Is-Desktop-Viewer&quot;: &quot;true&quot;,
+    &quot;CloudFront-Is-Mobile-Viewer&quot;: &quot;false&quot;,
+    &quot;CloudFront-Is-SmartTV-Viewer&quot;: &quot;false&quot;,
+    &quot;CloudFront-Is-Tablet-Viewer&quot;: &quot;false&quot;,
+    &quot;CloudFront-Viewer-Country&quot;: &quot;US&quot;,
+    &quot;Host&quot;: &quot;1234567890.execute-api.eu-central-1.amazonaws.com&quot;,
+    &quot;Upgrade-Insecure-Requests&quot;: &quot;1&quot;,
+    &quot;User-Agent&quot;: &quot;Custom User Agent String&quot;,
+    &quot;Via&quot;: &quot;1.1 08f323deafeb414ce27.cloudfront.net (CloudFront)&quot;,
+    &quot;X-Amz-Cf-Id&quot;: &quot;cDehVQoZnx43VYQb9j2-nvCh-9z396Uhbp027Y2JvkCPNLmGJHqlaA==&quot;,
+    &quot;X-Forwarded-For&quot;: &quot;127.0.0.1, 127.0.0.2&quot;,
+    &quot;X-Forwarded-Port&quot;: &quot;443&quot;,
+    &quot;X-Forwarded-Proto&quot;: &quot;https&quot;
+  },
+  &quot;requestContext&quot;: {
+    &quot;accountId&quot;: &quot;123456789012&quot;,
+    &quot;resourceId&quot;: &quot;123456&quot;,
+    &quot;stage&quot;: &quot;prod&quot;,
+    &quot;requestId&quot;: &quot;c6af9ac6-7b61-11e6-9a41-93e8deadbeef&quot;,
+    &quot;requestTime&quot;: &quot;09/Apr/2015:12:34:56 +0000&quot;,
+    &quot;requestTimeEpoch&quot;: 1428582896000,
+    &quot;identity&quot;: {
+      &quot;cognitoIdentityPoolId&quot;: null,
+      &quot;accountId&quot;: null,
+      &quot;cognitoIdentityId&quot;: null,
+      &quot;caller&quot;: null,
+      &quot;accessKey&quot;: null,
+      &quot;sourceIp&quot;: &quot;127.0.0.1&quot;,
+      &quot;cognitoAuthenticationType&quot;: null,
+      &quot;cognitoAuthenticationProvider&quot;: null,
+      &quot;userArn&quot;: null,
+      &quot;userAgent&quot;: &quot;Custom User Agent String&quot;,
+      &quot;user&quot;: null
+    },
+    &quot;path&quot;: &quot;/prod/path/to/resource&quot;,
+    &quot;resourcePath&quot;: &quot;/{proxy+}&quot;,
+    &quot;httpMethod&quot;: &quot;POST&quot;,
+    &quot;apiId&quot;: &quot;1234567890&quot;,
+    &quot;protocol&quot;: &quot;HTTP/1.1&quot;
+  }
+}
+</code></pre>
+
+<p>A Lambda behind an API Gateway must reply with this structure:</p>
+
+<pre><code class="language-json">{
+    &quot;statusCode&quot;: 200,
+    &quot;headers&quot;: {
+      &quot;Access-Control-Allow-Origin&quot;: &quot;*&quot;
+    },
+    &quot;body&quot;: &quot;{\&quot;test\&quot;:\&quot;value\&quot;}&quot;
+}
+</code></pre>
+
+<h4 id="responder-helper">Responder helper</h4>
+
+<p>A very useful method that produces a valid Lambda response for API Gateway, is this one:</p>
+
+<pre><code class="language-js">function response (error, data) {
+  let statusCode = 200
+  let status = 'ok'
+
+  if (error) {
+    status = 'ko'
+    if (error.code) {
+      statusCode = error.code
+    }
+  }
+
+  return {
+    statusCode,
+    headers: {
+      'Access-Control-Allow-Origin': '*'
+    },
+    body: JSON.stringify({
+      data,
+      status,
+      error: error ? error.message : undefined
+    })
+  }
+}
+
+// example
+
+exports.handler = async (event, context) =&gt; {
+  try {
+    const body = JSON.parse(event.body)
+    const data = await yourDataGetter(body)
+    return response(null, data)
+  } catch (e) {
+    console.error(e)
+    return response(e)
+  }
+}
+</code></pre>
+
+<h3 id="authorizer">Authorizer</h3>
+
+<p>An <code>authorizer</code> is a Lambda executed in order to let API Gateway know if the request should or be passed to the Lambda behind or not. The <code>authorizer</code> will be called with an event like this:</p>
+
+<pre><code class="language-json">{
+  &quot;type&quot;: &quot;TOKEN&quot;,
+  &quot;authorizationToken&quot;: &quot;incoming-client-token&quot;,
+  &quot;methodArn&quot;: &quot;arn:aws:execute-api:eu-central-1:123456789012:example/prod/POST/{proxy+}&quot;
+}
+</code></pre>
+
+<p>The <code>authorizer</code> must return a policy-like JSON with as <code>Effect</code>, <code>Allowed</code> or a <code>Deny</code> to the
+<code>Resource</code> requested, like:</p>
+
+<pre><code class="language-json">{
+    &quot;principalId&quot;: &quot;8034sadas7fb810bf&quot;,
+    &quot;policyDocument&quot;: {
+        &quot;Version&quot;: &quot;2012-10-17&quot;,
+        &quot;Statement&quot;: [
+            {
+                &quot;Action&quot;: &quot;execute-api:Invoke&quot;,
+                &quot;Effect&quot;: &quot;Allow&quot;,
+                &quot;Resource&quot;: &quot;arn:aws:execute-api:eu-central-1:123456789:randomstuff/prod/GET/users&quot;
+            }
+        ]
+    },
+    &quot;context&quot;: {
+        &quot;at_hash&quot;: &quot;kJ9ogdasWuDx0d1PQ&quot;,
+        &quot;sub&quot;: &quot;8daf810bf&quot;,
+        &quot;website&quot;: &quot;www.brugnara.me&quot;,
+        &quot;email_verified&quot;: &quot;true&quot;,
+        &quot;iss&quot;: &quot;https://cognito-idp.eu-central-1.amazonaws.com/eu-central-1_randomuuid&quot;,
+        &quot;phone_number_verified&quot;: &quot;false&quot;,
+        &quot;cognito:username&quot;: &quot;8034ebd5-424b-4f76-beca-36157qb810bf&quot;,
+        &quot;given_name&quot;: &quot;j&quot;,
+        &quot;locale&quot;: &quot;it-it&quot;,
+        &quot;aud&quot;: &quot;18q331duombk3pmlqr&quot;,
+        &quot;token_use&quot;: &quot;id&quot;,
+        &quot;auth_time&quot;: 1556870107,
+        &quot;phone_number&quot;: &quot;+1234567&quot;,
+        &quot;exp&quot;: 1557878417,
+        &quot;iat&quot;: 1557874817,
+        &quot;family_name&quot;: &quot;family&quot;,
+        &quot;email&quot;: &quot;email@test.com&quot;,
+        &quot;custom:level&quot;: &quot;1&quot;,
+        &quot;custom:privacy&quot;: &quot;1&quot;,
+        &quot;custom:role&quot;: &quot;Marketing&quot;
+    }
+}
+</code></pre>
+
+<p>In the above example you can see I populated the <code>context</code> with user&rsquo;s info Lambda will be happy to found and use.</p>
+
+<p>API Gateway can also cache the authorizer response. This is up to you depending on your needs.</p>
+
+<h2 id="a-simple-api">A simple API</h2>
+
+<p>Let&rsquo;s create our first API.</p>
+
+<p>As a first step, please create a new Lambda; just follow the instructions.
+I strongly recommend that you create a role for each Lambda.
+This will let you to be granular assigning permissions.</p>
+
+<p>On the API Gateway panel, let&rsquo;s create a new <code>API</code>. Name it <code>test</code>.</p>
+
+<p>Let&rsquo;s create our first <code>method</code> by clicking the upper select and selecting
+<code>add method</code>. A little select in the tree will appears. Select GET and confirm.</p>
+
+<p>Selecting the newly created method, we will be able to customize the backend for that method. Choose <strong>Lambda Function</strong> as <code>integration type</code>, flag <code>Use Lambda Proxy integration</code> then type in the <code>Lambda Function</code> name in the white field.</p>
+
+<h4 id="deploy-the-api">Deploy the API</h4>
+
+<ul>
+<li>Action</li>
+<li>Deploy API</li>
+<li>Chose <strong>[New Stage]</strong> in <code>Deployment stage</code></li>
+<li>Create <em>preprod</em> and <em>production</em> enviroments</li>
+<li>deploy both</li>
+</ul>
+
+<h4 id="test">Test</h4>
+
+<p>On the left, click the <code>Stages</code> menu of your newly created API (test). The two stages we created will appear.</p>
+
+<h3 id="preprod-production">preprod + production</h3>
+
+</article>
+
+		</main>
+		
+				<div class="hide-print sans-serif f6 f5-l mt5 ph3 pb6 center nested-copy-line-height lh-copy nested-links mw-100 measure-wide">
+		<div class="about-the-author">
+		
+			
+			
+				
+					
+				
+			
+		
+		</div>
+		
+	</div>
+
+		
+		
+		
+		<footer class="hide-print sans-serif f6 fw1 bg-black near-white bottom-0 w-100 pa3" role="contentinfo">
+			<p class="w-50 fr tr">
+			<a class="no-underline near-white" href="https://github.com/xaprb/story"><img class="dib" title="Made with Hugo and Story" alt="Story logo" src="http://example.org/img/story-logo-white.svg" style="width: 1.5rem; height: 1.5rem" /></a>
+			</p>
+			<p class="w-50 near-white">
+				&copy; 2019 
+			</p>
+		</footer>
+		
+	
+	
+	</body>
+</html>

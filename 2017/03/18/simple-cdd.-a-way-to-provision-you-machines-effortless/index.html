@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <title>Advanced DevOps  | simple-cdd. A way to provision you machines effortless</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="generator" content="Hugo 0.58.3" />
+    
+    
+      <META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
+    
+
+    
+    
+      <link href="/dist/css/app.d98f2eb6bcd1eaedb7edf166bd16af26.css" rel="stylesheet">
+    
+
+    
+
+    
+      
+    
+
+    
+    
+    <meta property="og:title" content="simple-cdd. A way to provision you machines effortless" />
+<meta property="og:description" content="What is simple-cdd As you can read here, simple-cdd simply is a limited, though relatively easy to use tool to create a customized DebianInstaller CD.
+It is a wrapper around debian-cd and mirroring tools used to create a customized DebianInstaller CD image. It takes a list of packages to install, and debconf pre-seeding files to pre-configure the installation. It has some support for multiple profiles and custom post-install scripts for things that can&rsquo;t be configured by debconf preseeding." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://blog.brugnara.me/2017/03/18/simple-cdd.-a-way-to-provision-you-machines-effortless/" />
+<meta property="article:published_time" content="2017-03-18T15:56:17+00:00" />
+<meta property="article:modified_time" content="2017-03-18T15:56:17+00:00" />
+<meta itemprop="name" content="simple-cdd. A way to provision you machines effortless">
+<meta itemprop="description" content="What is simple-cdd As you can read here, simple-cdd simply is a limited, though relatively easy to use tool to create a customized DebianInstaller CD.
+It is a wrapper around debian-cd and mirroring tools used to create a customized DebianInstaller CD image. It takes a list of packages to install, and debconf pre-seeding files to pre-configure the installation. It has some support for multiple profiles and custom post-install scripts for things that can&rsquo;t be configured by debconf preseeding.">
+
+
+<meta itemprop="datePublished" content="2017-03-18T15:56:17&#43;00:00" />
+<meta itemprop="dateModified" content="2017-03-18T15:56:17&#43;00:00" />
+<meta itemprop="wordCount" content="1880">
+
+
+
+<meta itemprop="keywords" content="" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="simple-cdd. A way to provision you machines effortless"/>
+<meta name="twitter:description" content="What is simple-cdd As you can read here, simple-cdd simply is a limited, though relatively easy to use tool to create a customized DebianInstaller CD.
+It is a wrapper around debian-cd and mirroring tools used to create a customized DebianInstaller CD image. It takes a list of packages to install, and debconf pre-seeding files to pre-configure the installation. It has some support for multiple profiles and custom post-install scripts for things that can&rsquo;t be configured by debconf preseeding."/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+    
+   
+  
+
+  <header>
+    <div class="bg-black">
+      <nav class="pv3 ph3 ph4-ns" role="navigation">
+  <div class="flex-l justify-between items-center center">
+    <a href="https://blog.brugnara.me/" class="f3 fw2 hover-white no-underline white-90 dib">
+      Advanced DevOps
+    </a>
+    <div class="flex-l items-center">
+      
+
+      
+      
+
+
+
+
+
+
+
+
+
+
+
+    </div>
+  </div>
+</nav>
+
+    </div>
+  </header>
+
+
+
+    <main class="pb7" role="main">
+      
+  
+  <article class="flex-l flex-wrap justify-between mw8 center ph3">
+
+    <header class="mt4 w-100">
+      <p class="f6 b helvetica tracked">
+          
+        POSTS
+      </p>
+      <h1 class="f1 athelas mb1">simple-cdd. A way to provision you machines effortless</h1>
+      
+      <p class="tracked">
+         By <strong>Daniele Brugnara</strong>
+      </p>
+      
+      
+      <time class="f6 mv4 dib tracked" datetime="2017-03-18T15:56:17Z">March 18, 2017</time>
+      
+      
+    </header>
+
+    <section class="nested-copy-line-height lh-copy serif f4 nested-links nested-img mid-gray pr4-l w-two-thirds-l">
+
+<h2 id="what-is-simple-cdd">What is <code>simple-cdd</code></h2>
+
+<p>As you can <a href="https://wiki.debian.org/Simple-CDD/">read here</a>, simple-cdd simply is a limited, though relatively easy to use tool to create a customized DebianInstaller CD.</p>
+
+<p>It is a wrapper around debian-cd and mirroring tools used to create a customized DebianInstaller CD image. It takes a list of packages to install, and debconf pre-seeding files to pre-configure the installation. It has some support for multiple profiles and custom post-install scripts for things that can&rsquo;t be configured by debconf preseeding.</p>
+
+<h2 id="mind-your-goal-before-start">Mind your goal before start</h2>
+
+<p>Before provisioning an entire server farm, you should be well prepared on what your machines are going to do.</p>
+
+<p>It is easy to underestimate the work needed to empower a consistent infrastructure and the more work you do before, the less pain you will encounter while deploying all together.</p>
+
+<h2 id="when-you-shouldn-t-use-simple-cdd">When you shouldn&rsquo;t use simple-cdd</h2>
+
+<p>If you have to handle web services and some simple server, this could be something too much for you. You can easily handle what you want with Docker or creating templates with your VM manager, like <a href="https://pve.proxmox.com/wiki/VM_Templates_and_Clones">Proxmox does</a>.</p>
+
+<h2 id="so-you-need-simple-cdd-huh">So you need simple-cdd, huh?</h2>
+
+<p>Good to know you are still interested. Let&rsquo;s see in detail what this tool, can do and how to achieve some simple goals.</p>
+
+<h2 id="goals">Goals</h2>
+
+<ul>
+<li>a customized Debian ISO with no questions during the install process</li>
+<li>a template which installs MongoDB automatically</li>
+<li>a second template which installs Docker automatically</li>
+</ul>
+
+<p>These goals are very easy but let me to introduce you the pros and cons.</p>
+
+<h3 id="preparation">Preparation</h3>
+
+<blockquote>
+<p>Please be aware when you cut&amp;paste snippets from this page. The blog engine used, appends some spaces on some lines. Those spaces will break in the case of package list, as an example. I&rsquo;m very sorry about this.</p>
+</blockquote>
+
+<p>You are going to need a fresh installed Debian, version 8 at the time of writing. After you have net-installed with nothing but an <code>ssh</code> server, you are almost ready.</p>
+
+<pre><code># install simple-cdd
+sudo apt-get update &amp;&amp; sudo apt-get install -y simple-cdd
+
+# cd ~
+mkdir -p cdd/profiles &amp;&amp; cd cdd
+
+# create a fresh iso, is easy as typing
+build-simple-cdd
+</code></pre>
+
+<h3 id="how-it-works">How it works</h3>
+
+<p>In the folder we just created (<code>~/cdd</code>) we are going to save everything we need to create our ISO. The folder <code>~/cdd/profiles</code> will contain our profiles, divided into two file kind: <code>*.preseed</code>, <code>*.postinst</code> and <code>*.packages</code>.</p>
+
+<p>Keep in mind if profile named <code>default</code> exists, it will be installed with no questions, without any other profile, so this is what we are not going to do, since we want to choose what to install.</p>
+
+<h4 id="packages">*.packages</h4>
+
+<p>a simple text file with a package we want to be installed in every line</p>
+
+<h4 id="preseed">*.preseed</h4>
+
+<p>a file, formatted with the standard rules <a href="https://wiki.debian.org/DebianInstaller/Preseed">defined here</a>.</p>
+
+<h4 id="postinst">*.postinst</h4>
+
+<p>an executable file, executed at the end of the installation process, as root in the installed system.</p>
+
+<h3 id="first-profile">First profile</h3>
+
+<p>Let&rsquo;s create a very simple profile. This profile will install <code>nano</code> if chosen.</p>
+
+<pre><code>echo &quot;nano&quot; &gt; profiles/test.packages
+build-simple-cdd --profiles test
+</code></pre>
+
+<p>This will take a lot of time, depending on your internet connection. At the end, in the folder <code>./images</code> a iso will be ready to burn.</p>
+
+<p>Mount the iso into a VM manager like VirtualBox or Proxmox.
+The installer will ask you to select, if you want, a profile to install. Obviously we try our <code>test</code> profile. After the VM is installed, simply try typing <code>nano --version</code>.</p>
+
+<h3 id="no-questions-during-the-install-process">No questions during the install process</h3>
+
+<p>You know how much boring is to install so many VM, each with the very same configuration. The same keyboard layout, the same timezone. The preseed files are going to help us.</p>
+
+<p>Here I am downloading the example preseed file <a href="https://www.debian.org/releases/jessie/example-preseed.txt">from debian official website</a>.</p>
+
+<pre><code>curl https://www.debian.org/releases/jessie/example-preseed.txt &gt; profiles/test.preseed
+
+nano profiles/test.preseed
+</code></pre>
+
+<p>Many params are in this file. Many can be ignored but we need to uncomment at least these (values for an italian Keyboard and timezone). With this file, nothing will be requested during the installation.</p>
+
+<pre><code>### Localization
+# Preseeding only locale sets language, country and locale.
+d-i debian-installer/locale string en_US
+
+# The values can also be preseeded individually for greater flexibility.
+d-i debian-installer/language string en
+d-i debian-installer/country string IT
+d-i debian-installer/locale string en_US.UTF-8
+
+# Keyboard selection.
+d-i keyboard-configuration/xkb-keymap select it
+
+# netcfg will choose an interface that has link if possible. This makes it
+# skip displaying a list if there is more than one interface.
+d-i netcfg/choose_interface select auto
+
+# Any hostname and domain names assigned from dhcp take precedence over
+# values set here. However, setting the values still prevents the questions
+# from being shown, even if values come from dhcp.
+d-i netcfg/get_hostname string unknown
+d-i netcfg/get_domain string brugnara.me
+
+# Disable that annoying WEP key dialog.
+d-i netcfg/wireless_wep string
+
+# This may be unwanted if using VM standard netcard
+# If non-free firmware is needed for the network or other hardware, you can
+# configure the installer to always try to load it, without prompting. Or
+# change to false to disable asking.
+d-i hw-detect/load_firmware boolean true
+
+### Mirror settings (selecting httpredir as hostname, the Country doesn't matter)
+# If you select ftp, the mirror/country string does not need to be set.
+#d-i mirror/protocol string ftp
+d-i mirror/country string Austria
+d-i mirror/http/hostname string httpredir.debian.org
+d-i mirror/http/directory string /debian
+d-i mirror/http/proxy string
+
+### Account setup
+# Skip creation of a root account (normal user account will be able to
+# use sudo).
+d-i passwd/root-login boolean false
+
+# Root password, either in clear text
+d-i passwd/root-password password Pa$$w0rd!RT!
+d-i passwd/root-password-again password Pa$$w0rd!RT!
+
+# To create a normal user account.
+d-i passwd/user-fullname string Devops
+d-i passwd/username string devops
+# Normal user's password, either in clear text
+d-i passwd/user-password password Dev0ps
+d-i passwd/user-password-again password Dev0ps
+
+### Clock and time zone setup
+# Controls whether or not the hardware clock is set to UTC.
+d-i clock-setup/utc boolean true
+
+# You may set this to any valid setting for $TZ; see the contents of
+# /usr/share/zoneinfo/ for valid values.
+d-i time/zone string Europe/Rome
+
+# Controls whether to use NTP to set the clock during the install
+d-i clock-setup/ntp boolean true
+
+### Partitioning
+## Partitioning example
+# If the system has free space you can choose to only partition that space.
+# This is only honoured if partman-auto/method (below) is not set.
+d-i partman-auto/init_automatically_partition select biggest_free
+d-i partman-auto/method string lvm
+
+# If one of the disks that are going to be automatically partitioned
+# contains an old LVM configuration, the user will normally receive a
+# warning. This can be preseeded away...
+d-i partman-lvm/device_remove_lvm boolean true
+# The same applies to pre-existing software RAID array:
+d-i partman-md/device_remove_md boolean true
+# And the same goes for the confirmation to write the lvm partitions.
+d-i partman-lvm/confirm boolean true
+d-i partman-lvm/confirm_nooverwrite boolean true
+
+# You can choose one of the three predefined partitioning recipes:
+# - atomic: all files in one partition
+# - home:   separate /home partition
+# - multi:  separate /home, /var, and /tmp partitions
+d-i partman-auto/choose_recipe select multi
+
+# This makes partman automatically partition without confirmation.
+d-i partman-md/confirm boolean true
+d-i partman-partitioning/confirm_write_new_label boolean true
+d-i partman/choose_partition select finish
+d-i partman/confirm boolean true
+d-i partman/confirm_nooverwrite boolean true
+
+### Apt setup
+# Select which update services to use; define the mirrors to be used.
+# Values shown below are the normal defaults.
+d-i apt-setup/services-select multiselect security, updates
+d-i apt-setup/security_host string security.debian.org
+
+# Individual additional packages to install
+d-i pkgsel/include string openssh-server build-essential python git ntp curl
+# Whether to upgrade packages after debootstrap.
+# Allowed values: none, safe-upgrade, full-upgrade
+d-i pkgsel/upgrade select none
+
+# Some versions of the installer can report back on what software you have
+# installed, and what software you use. The default is not to report back,
+# but sending reports helps the project determine what software is most
+# popular and include it on CDs.
+popularity-contest popularity-contest/participate boolean true
+
+# This is fairly safe to set, it makes grub install automatically to the MBR
+# if no other operating system is detected on the machine.
+d-i grub-installer/only_debian boolean true
+
+# This one makes grub-installer install to the MBR if it also finds some other
+# OS, which is less safe as it might not be able to boot that other OS.
+d-i grub-installer/with_other_os boolean true
+
+# Due notably to potential USB sticks, the location of the MBR can not be
+# To install to the first device (assuming it is not a USB stick):
+d-i grub-installer/bootdev  string default
+
+# Optional password for grub, either in clear text
+d-i grub-installer/password password !r00tme
+d-i grub-installer/password-again password !r00tme
+
+# Avoid that last message about the install being complete.
+d-i finish-install/reboot_in_progress note
+
+# This will prevent the installer from ejecting the CD during the reboot,
+# which is useful in some situations.
+d-i cdrom-detect/eject boolean true
+</code></pre>
+
+<p>Rebuild the iso:</p>
+
+<pre><code># since we didn't added any packages, we can skip recreating the mirror
+build-simple-cdd --profiles test --no-do-mirror
+</code></pre>
+
+<p>Mount the iso and check everything is working as expected. You can change any param in that file, as requested by you.</p>
+
+<h2 id="let-s-customize-more">Let&rsquo;s customize more</h2>
+
+<p>So you want to do something more, uh? What about installing MongoDB?</p>
+
+<pre><code>echo '
+apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 0C49F3730359A14518585931BC711F9BA15703C6
+
+echo &quot;deb http://repo.mongodb.org/apt/debian jessie/mongodb-org/3.4 main&quot; | tee /etc/apt/sources.list.d/mongodb-org-3.4.list
+
+apt-get update
+
+apt-get install -y mongodb-org-server
+service mongod start
+
+# start on boot
+systemctl enable mongod.service
+' &gt; profiles/mongodb.postinst &amp;&amp; chmod +x $_
+
+build-simple-cdd --profiles &quot;test,mongodb&quot; --no-do-mirror
+</code></pre>
+
+<h2 id="cdd-conf">cdd.conf</h2>
+
+<p>I prefer put the cdd build conf into a separate file, as you can see the &ndash;profiles flag becomes something to remember when you build your iso.</p>
+
+<pre><code>echo '
+locale=en_US
+keyboard=it
+profiles=test,mongodb
+debian-mirror=&quot;ftp://ftp.at.debian.org/debian&quot;
+' &gt; cdd.conf
+
+# we keep the flag --no-do-mirror out of the conf because we are likely going to not use it while creating new profiles with new packages which needs to be downloaded.
+echo &quot;build-simple-cdd --conf ./cdd.conf --no-do-mirror&quot; &gt; build.sh
+echo &quot;build-simple-cdd --conf ./cdd.conf&quot; &gt; full-build.sh
+
+chmod +x build.sh full-build.sh
+
+./build.sh
+</code></pre>
+
+<h2 id="docker">Docker</h2>
+
+<p>In this part we are going to see, how powerful profiles are.</p>
+
+<pre><code>echo &quot;
+apt-transport-https
+curl
+ca-certificates
+software-properties-common
+&quot; &gt; profiles/docker.packages
+
+echo '
+curl -fsSL https://download.docker.com/linux/debian/gpg | apt-key add -
+echo  &quot;deb https://download.docker.com/linux/debian jessie stable&quot; &gt; /etc/apt/sources.list.d/docker.list
+
+apt-get update
+apt-get -y install docker-ce
+
+service docker start
+
+# enable docker to non root user
+groupadd docker
+usermod -aG docker devops
+
+# start on boot
+systemctl enable docker
+' &gt; profiles/docker.postinst
+
+# build and test
+# add docker to profiles list in cdd.conf and then
+./full-build.sh
+</code></pre>
+
+<h2 id="combine-profiles">Combine profiles</h2>
+
+<p>You can create as many profiles you want and use in a combination while installing your machines. In my case, I have a <code>base</code> profile with all the things we need and profiles like <code>mongodb</code> or <code>docker</code>, to finish the customization of a ready machine.</p>
+
+<h2 id="backup">Backup</h2>
+
+<p>As you can easily backup the <code>profiles</code> folder, you can easily recreate your machines.</p>
+
+<h2 id="security">Security</h2>
+
+<p>Preparing a good machine is the key. The goal is to don&rsquo;t have the need to enter as root into the machines, so in our <code>base</code> profile, the last executed command is <code>apt-get remove --purge sudo</code> so the machine is not editable. This prevent to lose some configuration done on the machine and not documented, as always happens&hellip;</p>
+
+<h2 id="network">Network</h2>
+
+<p>You may want to rename your host or simply set an IP. For us, the best solution, is a DHCP server, also able to set the hostname, <a href="http://daniele.brugnara.me/2017/03/18/dhcpd-name-your-machines/">as argued here</a>.</p>
+
+<p>Enjoy this wonderful and now well documented, tool!</p>
+
+<h2 id="february-2019-update">February 2019 Update</h2>
+
+<p>Just tested with Debian 9.8 with no issues.</p>
+<ul class="pa0">
+  
+</ul>
+<div class="mt6">
+      
+      
+      </div>
+      <div id="disqus_thread"></div>
+<script>
+
+
+
+
+var disqus_config = function () {
+this.page.url = 'https:\/\/blog.brugnara.me\/2017\/03\/18\/simple-cdd.-a-way-to-provision-you-machines-effortless\/';  
+this.page.identifier = '6a94bca873f35309d1f32438af483f7c'; 
+};
+
+(function() { 
+var d = document, s = d.createElement('script');
+s.src = 'https://brugnara.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+    </section>
+
+    <aside class="w-30-l mt6-l">
+
+
+
+
+</aside>
+  </article>
+
+
+    </main>
+    <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
+  <div class="flex justify-between">
+  <a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href="https://blog.brugnara.me/" >
+    &copy; 2019 Advanced DevOps
+  </a>
+    <div>
+
+
+
+
+
+
+
+
+
+
+</div>
+  </div>
+</footer>
+
+    
+
+  <script src="/dist/js/app.3fc0f988d21662902933.js"></script>
+
+
+  </body>
+</html>

@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <title>Advanced DevOps </title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="generator" content="Hugo 0.58.3" />
+    
+    
+      <META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
+    
+
+    
+    
+      <link href="/dist/css/app.d98f2eb6bcd1eaedb7edf166bd16af26.css" rel="stylesheet">
+    
+
+    
+
+    
+      
+    
+
+    
+    
+      <link href="/post/index.xml" rel="alternate" type="application/rss+xml" title="Advanced DevOps" />
+      <link href="/post/index.xml" rel="feed" type="application/rss+xml" title="Advanced DevOps" />
+      
+    
+    
+    <meta property="og:title" content="Posts" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://blog.brugnara.me/post/" />
+
+<meta property="og:updated_time" content="2019-05-03T07:45:47+00:00" />
+<meta itemprop="name" content="Posts">
+<meta itemprop="description" content="">
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Posts"/>
+<meta name="twitter:description" content=""/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+    
+
+  <header>
+    <div class="pb3-m pb6-l bg-black">
+      <nav class="pv3 ph3 ph4-ns" role="navigation">
+  <div class="flex-l justify-between items-center center">
+    <a href="https://blog.brugnara.me/" class="f3 fw2 hover-white no-underline white-90 dib">
+      Advanced DevOps
+    </a>
+    <div class="flex-l items-center">
+      
+
+      
+      
+
+
+
+
+
+
+
+
+
+
+
+    </div>
+  </div>
+</nav>
+
+      <div class="tc-l pv3 ph3 ph4-ns">
+        <h1 class="f2 f-subheadline-l fw2 light-silver mb0 lh-title">
+          Posts
+        </h1>
+        
+      </div>
+    </div>
+  </header>
+
+
+    <main class="pb7" role="main">
+      
+
+  <article class="pa3 pa4-ns nested-copy-line-height nested-img">
+    <section class="cf ph3 ph5-l pv3 pv4-l f4 tc-l center measure-wide lh-copy mid-gray">
+      
+    </section>
+    <aside class="flex-ns flex-wrap justify-around mt5">
+      
+        <div class="relative w-100 w-30-l mb4 bg-white">
+          
+            <div class="mb3 pa4 mid-gray overflow-hidden">
+    
+      <div class="f6">
+        May 3, 2019
+      </div>
+    
+    <h1 class="f3 near-black">
+      <a href="https://blog.brugnara.me/2019/05/03/disable-su-on-debian/" class="link black dim">
+        disable su on debian
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      is your VM safe enough?  A VM is only safe when it&rsquo;s powered OFF
+ Why? You have prepared your VM with CDD and you want to be sure that changes will be saved on the original ISO so editing a live machine, will not be possible. You are forced to firstly update your versioned CDD/ISO so who will come after you, will be able to exactly understand what and why you did.
+    </div>
+  </div>
+
+        </div>
+      
+        <div class="relative w-100 w-30-l mb4 bg-white">
+          
+            <div class="mb3 pa4 mid-gray overflow-hidden">
+    
+      <div class="f6">
+        April 18, 2017
+      </div>
+    
+    <h1 class="f3 near-black">
+      <a href="https://blog.brugnara.me/2017/04/18/gnu-awk-is-required-for-lib/memtype.h-made-by-memtypes.awk.-bsd-awk-complains-awk-gensub-doesnt-support-backreferences-subst-%5C1/" class="link black dim">
+        GNU awk is required for lib/memtype.h made by memtypes.awk. BSD awk complains: awk: gensub doesn&#39;t support backreferences (subst &#34;\1&#34;)
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      This error is given when you try to compile quagga.
+The easy solution is to
+ tested with Debian 8 and Quagga 1.2.1
+ apt-get install -y gawk  Compile quagga If you need more help, here&rsquo;s the list of the needed dependencies to compile correctly.
+apt-get install -y build-essential gawk libreadline-dev pkg-config libc-ares-dev  After this, a simple
+./configure [options] make &amp;&amp; make install  will do the rest.
+    </div>
+  </div>
+
+        </div>
+      
+        <div class="relative w-100 w-30-l mb4 bg-white">
+          
+            <div class="mb3 pa4 mid-gray overflow-hidden">
+    
+      <div class="f6">
+        April 15, 2017
+      </div>
+    
+    <h1 class="f3 near-black">
+      <a href="https://blog.brugnara.me/2017/04/15/keepalived-virtual-ip-plus-alerting/" class="link black dim">
+        keepalived, virtual IP plus alerting
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      KeepAliveD is a tool you should learn as soon as possible. You are going to need this wonderful instrument and its magnificent powers.
+All starts with a a simple apt-get install keepalived and continues with a very short configuration needed.
+requirements Create two Debian 8 VM on the same network.
+ debianA: 192.168.60.101&frasl;24 debianB: 192.168.60.102&frasl;24  Your firewall must allow VRRP protocol communication between clients on the same subnet.
+    </div>
+  </div>
+
+        </div>
+      
+        <div class="relative w-100 w-30-l mb4 bg-white">
+          
+            <div class="mb3 pa4 mid-gray overflow-hidden">
+    
+      <div class="f6">
+        April 15, 2017
+      </div>
+    
+    <h1 class="f3 near-black">
+      <a href="https://blog.brugnara.me/2017/04/15/dd-monitor-current-status-and-speed/" class="link black dim">
+        DD, monitor current status and speed
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      One of the most useful command in Linux, is dd. We also know that dd provides info regarding the current status, using kill:
+kill -USR1 &lt;pidof dd&gt;  but I really prefer the pv way (apt-get install pv)
+# We usually do this way dd if=my.iso of=/dev/sdb # This is the &quot;pv&quot; way dd if=my.iso | pv | dd of=/dev/sdb  Of course, you need apt-get install -y pv before, but piping through pv, allow you to see the status, in real time.
+    </div>
+  </div>
+
+        </div>
+      
+        <div class="relative w-100 w-30-l mb4 bg-white">
+          
+            <div class="mb3 pa4 mid-gray overflow-hidden">
+    
+      <div class="f6">
+        April 15, 2017
+      </div>
+    
+    <h1 class="f3 near-black">
+      <a href="https://blog.brugnara.me/2017/04/15/openvpn-tap-vs-tun-differences/" class="link black dim">
+        openvpn, tap vs tun, differences
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      While creating an OpenVPN server you should think what you are going to use it for.
+Long story short Use tap for a layer 2 vpn, tun for a layer 3.
+tap Tap is a virtual eth interface and, you will be able to put the interface tap0 into a bridge:
+apt-get install bridge-utils brctl addbr br0 brctl addif br0 tap0 eth0  tun Tun is for a direct IP connection between two points.
+    </div>
+  </div>
+
+        </div>
+      
+        <div class="relative w-100 w-30-l mb4 bg-white">
+          
+            <div class="mb3 pa4 mid-gray overflow-hidden">
+    
+      <div class="f6">
+        April 15, 2017
+      </div>
+    
+    <h1 class="f3 near-black">
+      <a href="https://blog.brugnara.me/2017/04/15/debian-preseed-prompt-user-input/" class="link black dim">
+        debian preseed, prompt user input
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      Debian preseed As I told in a previous article, preseeding is very useful, you can do many stuff without the need of an external system like Puppet o Chef.
+A problem I encountered while preseeding our farm, was to ask user just some input or to confirm it.
+The solution is very simple but not well documented and after a bit of research, I found the way.
+# preseeding the value, this will not be asked.
+    </div>
+  </div>
+
+        </div>
+      
+        <div class="relative w-100 w-30-l mb4 bg-white">
+          
+            <div class="mb3 pa4 mid-gray overflow-hidden">
+    
+      <div class="f6">
+        March 18, 2017
+      </div>
+    
+    <h1 class="f3 near-black">
+      <a href="https://blog.brugnara.me/2017/03/18/advanced-provisioning-with-simple-cdd-and-git/" class="link black dim">
+        Advanced provisioning with simple-cdd and git
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      Installing machines, is now more easy, as seen in my previous article.
+What happens if we want to update a configuration? If we only rely to the simple-cdd way, we are going to rebuild the iso and reinstall our VMs, which is not we always want to do.
+In my case, I have found many tools able to achieve this goal. Chef, PuppetLabs are just two of those. Do you really want to use something you need to learn?
+    </div>
+  </div>
+
+        </div>
+      
+        <div class="relative w-100 w-30-l mb4 bg-white">
+          
+            <div class="mb3 pa4 mid-gray overflow-hidden">
+    
+      <div class="f6">
+        March 18, 2017
+      </div>
+    
+    <h1 class="f3 near-black">
+      <a href="https://blog.brugnara.me/2017/03/18/dhcpd-name-your-machines/" class="link black dim">
+        dhcpd, name your machines
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      As seen in my previous blog post, provisioning machines is quite simple, but the hostname must be unique, so we want an automatic way to configure it.
+installation of a dhcpd This is not what I want to share, you will find here the how-to.
+dhcpd.conf option domain-name-servers 8.8.8.8, 8.8.4.4; option domain-name &quot;brugnara.me&quot;; default-lease-time 600; max-lease-time 7200; # Show that we want to be the only DHCP server in this network: authoritative; subnet 192.
+    </div>
+  </div>
+
+        </div>
+      
+        <div class="relative w-100 w-30-l mb4 bg-white">
+          
+            <div class="mb3 pa4 mid-gray overflow-hidden">
+    
+      <div class="f6">
+        March 18, 2017
+      </div>
+    
+    <h1 class="f3 near-black">
+      <a href="https://blog.brugnara.me/2017/03/18/proxmox-net-card-association-with-udev/" class="link black dim">
+        Proxmox net card association with udev
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      udev eth association with Proxmox If you are here, you may have the same problem as I encountered. The way you create net card in Proxmox, is not predictable in linux. If you have seen my article about simple-cdd, you may better understand why we solved this way.
+udev works with address Yes. It is. But it works with regular expressions, so we can use for our goal. How? Check this base.
+    </div>
+  </div>
+
+        </div>
+      
+        <div class="relative w-100 w-30-l mb4 bg-white">
+          
+            <div class="mb3 pa4 mid-gray overflow-hidden">
+    
+      <div class="f6">
+        March 18, 2017
+      </div>
+    
+    <h1 class="f3 near-black">
+      <a href="https://blog.brugnara.me/2017/03/18/simple-cdd.-a-way-to-provision-you-machines-effortless/" class="link black dim">
+        simple-cdd. A way to provision you machines effortless
+      </a>
+    </h1>
+    <div class="nested-links f5 lh-copy nested-copy-line-height">
+      What is simple-cdd As you can read here, simple-cdd simply is a limited, though relatively easy to use tool to create a customized DebianInstaller CD.
+It is a wrapper around debian-cd and mirroring tools used to create a customized DebianInstaller CD image. It takes a list of packages to install, and debconf pre-seeding files to pre-configure the installation. It has some support for multiple profiles and custom post-install scripts for things that can&rsquo;t be configured by debconf preseeding.
+    </div>
+  </div>
+
+        </div>
+      
+    </aside>
+    
+
+<ul class="pagination">
+    
+    <li class="page-item">
+        <a href="/post/" class="page-link" aria-label="First"><span aria-hidden="true">&laquo;&laquo;</span></a>
+    </li>
+    
+    <li class="page-item disabled">
+    <a  class="page-link" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
+    </li>
+    
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    <li class="page-item active"><a class="page-link" href="/post/">1</a></li>
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    <li class="page-item"><a class="page-link" href="/post/page/2/">2</a></li>
+    
+    
+    <li class="page-item">
+    <a href="/post/page/2/" class="page-link" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
+    </li>
+    
+    <li class="page-item">
+        <a href="/post/page/2/" class="page-link" aria-label="Last"><span aria-hidden="true">&raquo;&raquo;</span></a>
+    </li>
+    
+</ul>
+
+
+  </article>
+
+    </main>
+    <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
+  <div class="flex justify-between">
+  <a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href="https://blog.brugnara.me/" >
+    &copy; 2019 Advanced DevOps
+  </a>
+    <div>
+
+
+
+
+
+
+
+
+
+
+</div>
+  </div>
+</footer>
+
+    
+
+  <script src="/dist/js/app.3fc0f988d21662902933.js"></script>
+
+
+  </body>
+</html>

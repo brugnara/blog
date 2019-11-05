@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>Advanced provisioning with simple-cdd and git</title>
+		<link rel="alternate" type="application/rss+xml" title="RSS" href="http://example.org/index.xml">
+		<link rel="canonical" href="http://example.org/post/advanced-provisioning-with-simple-cdd-and-git/">
+		
+		<link rel="shortcut icon" type="image/png" href="http://example.org/apple-touch-icon-precomposed.png">
+		
+		
+		<meta name="generator" content="Hugo 0.58.3" />
+
+		
+		<meta property="og:title" content="Advanced provisioning with simple-cdd and git" />
+		<meta property="og:type" content="article" />
+		<meta property="og:image" content="http://example.org/img/default-header-img.jpg" />
+		<meta property="og:description" content="" />
+		<meta property="og:url" content="http://example.org/post/advanced-provisioning-with-simple-cdd-and-git/" />
+		<meta property="og:site_name" content="Advanced provisioning with simple-cdd and git" />
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:site" content="@" />
+
+
+		
+		<link rel="stylesheet" href="http://example.org/css/tachyons.min.css" />
+		<link rel="stylesheet" href="http://example.org/css/story.css" />
+		<link rel="stylesheet" href="http://example.org/css/descartes.css" />
+		
+		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+		<link href="https://fonts.googleapis.com/css?family=Quattrocento+Sans:400,400i,700,700i|Quattrocento:400,700|Spectral:400,400i,700,700i&amp;subset=latin-ext" rel="stylesheet">
+		
+
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+		
+		<script src="http://example.org/js/story.js"></script>
+
+	</head>
+	<body class="ma0 bg-white section-post page-kind-page is-page-true ">
+		
+		<header class="cover bg-top" style="background-image: url('http://example.org/img/default-header-img.jpg'); background-position: center;">
+			<div class="bg-black-30 bb bt">
+
+				<nav class="hide-print sans-serif  border-box pa3 ph5-l">
+					<a href="http://example.org/" title="Home">
+						<img src="http://example.org/img/logo.jpg" class="w2 h2 br-100" alt="My New Hugo Site" />
+					</a>
+					<div class="fr h2 pv2 tr">
+						<a class="link f5 ml2 dim near-white fas fa-rss-square" href="http://example.org/index.xml" title="RSS Feed"></a>
+						<a class="link f5 ml2 dim near-white fas fa-search" href="http://example.org/search/" role="search" title="Search"></a>
+					</div>
+				</nav>
+
+				<div id="hdr" class="tc-l pv4-ns pv5-l pv2 ph3 ph4-ns">
+					<h1 class="near-white mt1-ns f2 fw3 mb0 mt0 lh-title">Advanced provisioning with simple-cdd and git</h1>
+					<h2 class="near-white mt3-l mb4-l fw1 f6 f3-l measure-wide-l center lh-copy mt2 mb3">
+						
+						
+							
+								Published
+								<time datetime="2017-03-18T16:44:16Z">Mar 18, 2017</time>
+								<span class="display-print">by Daniele Brugnara</span>
+								
+								<span class="display-print">at http://example.org/post/advanced-provisioning-with-simple-cdd-and-git/</span>
+							
+						
+					</h2>
+				</div>
+
+				
+				
+				
+				
+
+			</div>
+		</header>
+		
+		<main role="main">
+		
+<article class="center bg-white br-3 pv1 ph4 lh-copy f5 nested-links mw7">
+	
+
+<p>Installing machines, is now more easy, as seen in <a href="http://daniele.brugnara.me/2017/03/18/simple-cdd-a-way-to-provision-you-machines-effortless/">my previous article</a>.</p>
+
+<p>What happens if we want to update a configuration? If we only rely to the <code>simple-cdd</code> way, we are going to rebuild the iso and reinstall our VMs, which is not we always want to do.</p>
+
+<p>In my case, I have found many tools able to achieve this goal. Chef, PuppetLabs are just two of those. Do you really want to use something you need to learn? Do you have the time to learn something new just to provision your machines once? Not me. Thank you.</p>
+
+<p>All of us known git and bash, so we are going to use both, hurray!</p>
+
+<h2 id="provisioning">provisioning</h2>
+
+<p>Simple <code>profile.postinst</code> content for <code>simple-cdd</code>. We can also do by hand this configuration.</p>
+
+<pre><code>git clone git@bitbucket.org:your-name-here/server-bootstrap.git /var/bootstrap
+chmod 700 /var/bootstrap
+
+# prepare rc.local
+
+echo &quot;#!/bin/sh
+
+# update repo with bootstrap file
+cd /var/bootstrap
+git reset --hard
+git pull origin master
+
+cd /var/bootstrap/service
+/bin/bash bootstrap
+
+exit 0
+&quot; &gt; /etc/rc.local
+
+# executable only from root, not visible to anyone else
+chmod 100 /etc/rc.local
+</code></pre>
+
+<p>As you can see, we are writing a <code>rc.local</code> able to update the files at boot time. This allow the machine to auto update with a reboot.</p>
+
+<p>Let&rsquo;s see a simple dhcpd <code>bootstrap</code> file:</p>
+
+<pre><code>#!/bin/bash
+
+echo &quot;+-------------------+&quot;
+echo &quot;| configuring dhcpd |&quot;
+echo &quot;+-------------------+&quot;
+
+echo &quot;INTERFACES=\&quot;eth1 eth2 eth3\&quot;&quot; &gt; /etc/default/isc-dhcp-server
+
+cp dhcpd.conf /etc/dhcp/dhcpd.conf
+
+/etc/init.d/isc-dhcp-server restart
+
+echo &quot;+-----------+&quot;
+echo &quot;| all done! |&quot;
+echo &quot;+-----------+&quot;
+</code></pre>
+
+<p>Here&rsquo;s another <code>bootstrap</code> for a nodejs service, as an example</p>
+
+<pre><code>#!/bin/bash
+
+IP=192.168.10.41
+PORT=8080
+NODE_VERSION=&quot;v6.10.0&quot;
+
+# sysctl configs
+
+echo &quot;+--------------------+&quot;
+echo &quot;| configuring sysctl |&quot;
+echo &quot;+--------------------+&quot;
+
+sysctl -w net.ipv4.ip_forward=1
+sysctl -w net.core.somaxconn=65536
+
+if [ `node -v` = $NODE_VERSION ];
+then
+    echo &quot;+-----------------------------------+&quot;
+    echo &quot;| node is already on wanted version |&quot;
+    echo &quot;+-----------------------------------+&quot;
+else
+    echo &quot;+---------------+&quot;
+    echo &quot;| updating node |&quot;
+    echo &quot;+---------------+&quot;
+
+    curl -k https://nodejs.org/dist/$NODE_VERSION/node-$NODE_VERSION-linux-x64.tar.xz | tar xvJ --strip-components=1 -C &quot;/usr/local&quot;
+fi
+
+echo &quot;+---------------------------------+&quot;
+echo &quot;| intalling and upgrading forever |&quot;
+echo &quot;+---------------------------------+&quot;
+
+npm i -g forever
+npm up -g forever
+
+echo &quot;+----------------+&quot;
+echo &quot;| updating proxy |&quot;
+echo &quot;+----------------+&quot;
+
+chown -R devops:devops /var/www/proxy
+su -l devops -c &quot;cd /var/www/proxy; HOST=$IP /bin/bash start.sh&quot;
+chown -R root:root /var/www/proxy
+
+echo &quot;+----------------+&quot;
+echo &quot;| iptables stuff |&quot;
+echo &quot;+----------------+&quot;
+
+# clean rules
+iptables -F -t nat
+iptables -F
+
+# NAT users using output eth
+iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
+
+echo &quot;+-----------+&quot;
+echo &quot;| all done! |&quot;
+echo &quot;+-----------+&quot;
+
+</code></pre>
+
+<p>Enjoy!</p>
+
+</article>
+
+		</main>
+		
+				<div class="hide-print sans-serif f6 f5-l mt5 ph3 pb6 center nested-copy-line-height lh-copy nested-links mw-100 measure-wide">
+		<div class="about-the-author">
+		
+			
+			
+				
+					
+				
+			
+		
+		</div>
+		
+	</div>
+
+		
+		
+		
+		<footer class="hide-print sans-serif f6 fw1 bg-black near-white bottom-0 w-100 pa3" role="contentinfo">
+			<p class="w-50 fr tr">
+			<a class="no-underline near-white" href="https://github.com/xaprb/story"><img class="dib" title="Made with Hugo and Story" alt="Story logo" src="http://example.org/img/story-logo-white.svg" style="width: 1.5rem; height: 1.5rem" /></a>
+			</p>
+			<p class="w-50 near-white">
+				&copy; 2019 
+			</p>
+		</footer>
+		
+	
+	
+	</body>
+</html>

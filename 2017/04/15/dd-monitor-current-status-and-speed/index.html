@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <title>Advanced DevOps  | DD, monitor current status and speed</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="generator" content="Hugo 0.58.3" />
+    
+    
+      <META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
+    
+
+    
+    
+      <link href="/dist/css/app.d98f2eb6bcd1eaedb7edf166bd16af26.css" rel="stylesheet">
+    
+
+    
+
+    
+      
+    
+
+    
+    
+    <meta property="og:title" content="DD, monitor current status and speed" />
+<meta property="og:description" content="One of the most useful command in Linux, is dd. We also know that dd provides info regarding the current status, using kill:
+kill -USR1 &lt;pidof dd&gt;  but I really prefer the pv way (apt-get install pv)
+# We usually do this way dd if=my.iso of=/dev/sdb # This is the &quot;pv&quot; way dd if=my.iso | pv | dd of=/dev/sdb  Of course, you need apt-get install -y pv before, but piping through pv, allow you to see the status, in real time." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://blog.brugnara.me/2017/04/15/dd-monitor-current-status-and-speed/" />
+<meta property="article:published_time" content="2017-04-15T09:31:39+00:00" />
+<meta property="article:modified_time" content="2017-04-15T09:31:39+00:00" />
+<meta itemprop="name" content="DD, monitor current status and speed">
+<meta itemprop="description" content="One of the most useful command in Linux, is dd. We also know that dd provides info regarding the current status, using kill:
+kill -USR1 &lt;pidof dd&gt;  but I really prefer the pv way (apt-get install pv)
+# We usually do this way dd if=my.iso of=/dev/sdb # This is the &quot;pv&quot; way dd if=my.iso | pv | dd of=/dev/sdb  Of course, you need apt-get install -y pv before, but piping through pv, allow you to see the status, in real time.">
+
+
+<meta itemprop="datePublished" content="2017-04-15T09:31:39&#43;00:00" />
+<meta itemprop="dateModified" content="2017-04-15T09:31:39&#43;00:00" />
+<meta itemprop="wordCount" content="121">
+
+
+
+<meta itemprop="keywords" content="" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="DD, monitor current status and speed"/>
+<meta name="twitter:description" content="One of the most useful command in Linux, is dd. We also know that dd provides info regarding the current status, using kill:
+kill -USR1 &lt;pidof dd&gt;  but I really prefer the pv way (apt-get install pv)
+# We usually do this way dd if=my.iso of=/dev/sdb # This is the &quot;pv&quot; way dd if=my.iso | pv | dd of=/dev/sdb  Of course, you need apt-get install -y pv before, but piping through pv, allow you to see the status, in real time."/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+    
+   
+  
+
+  <header>
+    <div class="bg-black">
+      <nav class="pv3 ph3 ph4-ns" role="navigation">
+  <div class="flex-l justify-between items-center center">
+    <a href="https://blog.brugnara.me/" class="f3 fw2 hover-white no-underline white-90 dib">
+      Advanced DevOps
+    </a>
+    <div class="flex-l items-center">
+      
+
+      
+      
+
+
+
+
+
+
+
+
+
+
+
+    </div>
+  </div>
+</nav>
+
+    </div>
+  </header>
+
+
+
+    <main class="pb7" role="main">
+      
+  
+  <article class="flex-l flex-wrap justify-between mw8 center ph3">
+
+    <header class="mt4 w-100">
+      <p class="f6 b helvetica tracked">
+          
+        POSTS
+      </p>
+      <h1 class="f1 athelas mb1">DD, monitor current status and speed</h1>
+      
+      <p class="tracked">
+         By <strong>Daniele Brugnara</strong>
+      </p>
+      
+      
+      <time class="f6 mv4 dib tracked" datetime="2017-04-15T09:31:39Z">April 15, 2017</time>
+      
+      
+    </header>
+
+    <section class="nested-copy-line-height lh-copy serif f4 nested-links nested-img mid-gray pr4-l w-two-thirds-l"><p>One of the most useful command in Linux, is <code>dd</code>. We also know that <code>dd</code> provides info regarding the current status, using kill:</p>
+
+<pre><code>kill -USR1 &lt;pidof dd&gt;
+</code></pre>
+
+<p>but I really prefer the <code>pv</code> way (<code>apt-get install pv</code>)</p>
+
+<pre><code># We usually do this way
+dd if=my.iso of=/dev/sdb
+
+# This is the &quot;pv&quot; way
+dd if=my.iso | pv | dd of=/dev/sdb
+</code></pre>
+
+<p>Of course, you need <code>apt-get install -y pv</code> before, but piping through <code>pv</code>, allow you to see the status, in real time.</p>
+
+<pre><code>dd if=xubuntu-16.04.2-desktop-i386.iso | pv | dd of=/dev/sdb
+1.01GiB 0:06:22 [3.25MiB/s] [           &lt;=&gt;                 ]
+
+# when dd ends, this output is printed, as always
+2543424+0 records in
+2543424+0 records out
+1302233088 bytes (1.3 GB, 1.2 GiB) copied, 382.114 s, 3.4 MB/s
+</code></pre>
+<ul class="pa0">
+  
+</ul>
+<div class="mt6">
+      
+      
+      </div>
+      <div id="disqus_thread"></div>
+<script>
+
+
+
+
+var disqus_config = function () {
+this.page.url = 'https:\/\/blog.brugnara.me\/2017\/04\/15\/dd-monitor-current-status-and-speed\/';  
+this.page.identifier = 'e8b223855ddd5586afa6c4601f973815'; 
+};
+
+(function() { 
+var d = document, s = d.createElement('script');
+s.src = 'https://brugnara.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+    </section>
+
+    <aside class="w-30-l mt6-l">
+
+
+
+
+</aside>
+  </article>
+
+
+    </main>
+    <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
+  <div class="flex justify-between">
+  <a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href="https://blog.brugnara.me/" >
+    &copy; 2019 Advanced DevOps
+  </a>
+    <div>
+
+
+
+
+
+
+
+
+
+
+</div>
+  </div>
+</footer>
+
+    
+
+  <script src="/dist/js/app.3fc0f988d21662902933.js"></script>
+
+
+  </body>
+</html>

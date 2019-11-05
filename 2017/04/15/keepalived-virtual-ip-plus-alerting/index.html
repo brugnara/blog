@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <title>Advanced DevOps  | keepalived, virtual IP plus alerting</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="generator" content="Hugo 0.58.3" />
+    
+    
+      <META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
+    
+
+    
+    
+      <link href="/dist/css/app.d98f2eb6bcd1eaedb7edf166bd16af26.css" rel="stylesheet">
+    
+
+    
+
+    
+      
+    
+
+    
+    
+    <meta property="og:title" content="keepalived, virtual IP plus alerting" />
+<meta property="og:description" content="KeepAliveD is a tool you should learn as soon as possible. You are going to need this wonderful instrument and its magnificent powers.
+All starts with a a simple apt-get install keepalived and continues with a very short configuration needed.
+requirements Create two Debian 8 VM on the same network.
+ debianA: 192.168.60.101&frasl;24 debianB: 192.168.60.102&frasl;24  Your firewall must allow VRRP protocol communication between clients on the same subnet." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://blog.brugnara.me/2017/04/15/keepalived-virtual-ip-plus-alerting/" />
+<meta property="article:published_time" content="2017-04-15T10:10:58+00:00" />
+<meta property="article:modified_time" content="2017-04-15T10:10:58+00:00" />
+<meta itemprop="name" content="keepalived, virtual IP plus alerting">
+<meta itemprop="description" content="KeepAliveD is a tool you should learn as soon as possible. You are going to need this wonderful instrument and its magnificent powers.
+All starts with a a simple apt-get install keepalived and continues with a very short configuration needed.
+requirements Create two Debian 8 VM on the same network.
+ debianA: 192.168.60.101&frasl;24 debianB: 192.168.60.102&frasl;24  Your firewall must allow VRRP protocol communication between clients on the same subnet.">
+
+
+<meta itemprop="datePublished" content="2017-04-15T10:10:58&#43;00:00" />
+<meta itemprop="dateModified" content="2017-04-15T10:10:58&#43;00:00" />
+<meta itemprop="wordCount" content="721">
+
+
+
+<meta itemprop="keywords" content="" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="keepalived, virtual IP plus alerting"/>
+<meta name="twitter:description" content="KeepAliveD is a tool you should learn as soon as possible. You are going to need this wonderful instrument and its magnificent powers.
+All starts with a a simple apt-get install keepalived and continues with a very short configuration needed.
+requirements Create two Debian 8 VM on the same network.
+ debianA: 192.168.60.101&frasl;24 debianB: 192.168.60.102&frasl;24  Your firewall must allow VRRP protocol communication between clients on the same subnet."/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+    
+   
+  
+
+  <header>
+    <div class="bg-black">
+      <nav class="pv3 ph3 ph4-ns" role="navigation">
+  <div class="flex-l justify-between items-center center">
+    <a href="https://blog.brugnara.me/" class="f3 fw2 hover-white no-underline white-90 dib">
+      Advanced DevOps
+    </a>
+    <div class="flex-l items-center">
+      
+
+      
+      
+
+
+
+
+
+
+
+
+
+
+
+    </div>
+  </div>
+</nav>
+
+    </div>
+  </header>
+
+
+
+    <main class="pb7" role="main">
+      
+  
+  <article class="flex-l flex-wrap justify-between mw8 center ph3">
+
+    <header class="mt4 w-100">
+      <p class="f6 b helvetica tracked">
+          
+        POSTS
+      </p>
+      <h1 class="f1 athelas mb1">keepalived, virtual IP plus alerting</h1>
+      
+      <p class="tracked">
+         By <strong>Daniele Brugnara</strong>
+      </p>
+      
+      
+      <time class="f6 mv4 dib tracked" datetime="2017-04-15T10:10:58Z">April 15, 2017</time>
+      
+      
+    </header>
+
+    <section class="nested-copy-line-height lh-copy serif f4 nested-links nested-img mid-gray pr4-l w-two-thirds-l">
+
+<p>KeepAliveD is a tool you should learn as soon as possible. You are going to need this wonderful instrument and its magnificent powers.</p>
+
+<p>All starts with a a simple <code>apt-get install keepalived</code> and continues with a very short configuration needed.</p>
+
+<h2 id="requirements">requirements</h2>
+
+<p>Create two Debian 8 VM on the same network.</p>
+
+<ul>
+<li>debianA: 192.168.60.<sup>101</sup>&frasl;<sub>24</sub></li>
+<li>debianB: 192.168.60.<sup>102</sup>&frasl;<sub>24</sub></li>
+</ul>
+
+<p>Your firewall must allow <code>VRRP</code> protocol communication between clients on the same subnet.</p>
+
+<h4 id="install-keepalived">Install keepalived:</h4>
+
+<p>On both machines</p>
+
+<pre><code>apt-get install -y keepalived
+</code></pre>
+
+<h2 id="sysctl">sysctl</h2>
+
+<p>A little tune is required in order to make keepalived working</p>
+
+<pre><code>echo &quot;net.ipv4.ip_nonlocal_bind = 1&quot; &gt;&gt; /etc/sysctl.conf
+sysctl -p
+</code></pre>
+
+<h2 id="keepalived-conf">keepalived.conf</h2>
+
+<blockquote>
+<p>location: /etc/keepalived/keepalived.conf</p>
+</blockquote>
+
+<p>We are going to use the very same configuration on all machines despite what said on the official KeepAliveD installation guide, just because I don&rsquo;t want to force a specific machine to always be the MASTER so I let the protocol choose what machine should be the MASTER and who the BACKUP, depending on the <code>priority</code> calculated (see next example).</p>
+
+<blockquote>
+<p>keepalived.conf</p>
+
+<pre><code>vrrp_instance VI_1 {
+    interface eth0
+    state MASTER
+    virtual_router_id 100
+    priority 100
+    virtual_ipaddress {
+        192.168.60.100/24 label eth0:1
+    }
+}
+</code></pre>
+</blockquote>
+
+<p>After you configured all the VMs, simply restart daemon: <code>service keepalived restart</code> or <code>/etc/init.d/keepalived restart</code>.</p>
+
+<p>On both VMs, do a <code>ip addr | grep 192.168</code> should show something similar to this. The machine with the keepalived ip should be only one, maybe the vm2 in your case</p>
+
+<h5 id="vm1">vm1</h5>
+
+<pre><code>inet 192.168.60.101/24 ... eth0
+ient 192.168.60.100/24 ... eth0:1
+</code></pre>
+
+<h5 id="vm2">vm2</h5>
+
+<pre><code>inet 192.168.60.102/24 ... eth0
+</code></pre>
+
+<h3 id="priority-based-on-what-happens-on-the-vm">priority based on what happens on the VM</h3>
+
+<p>Let&rsquo;s say you want to drop the IP in case the service is no more operational, this is done lowering the priority programmatically on a script base. Lowering the priority means the IP will be assigned to the VM with a greater priority.</p>
+
+<blockquote>
+<p>keepalived.conf</p>
+
+<pre><code>vrrp_script chk_proxy {
+        script &quot;[ `curl http://localhost:8080/check` = 'ok' ]&quot;
+        interval 2
+        weight 2
+}
+
+vrrp_instance VI_1 {
+        interface eth1
+        state MASTER
+        virtual_router_id 201
+        priority 100
+        virtual_ipaddress {
+            192.168.60.100/24
+        }
+        track_script {
+            chk_proxy
+        }
+}
+</code></pre>
+</blockquote>
+
+<p>The <code>chk_proxy</code> script is called every <code>2</code> seconds. If the exit code is <strong>not</strong> zero, the priority will be lowered by <code>weight</code>. This means if one of the machines has the web service down, will have a priority of <code>98</code>. If every machine has the web service down, every one will have the same priority and the IP will be assigned randomly to a machine not able to handle the request. Pay attention to this.</p>
+
+<h4 id="script">script</h4>
+
+<p>You can also write an external executable script and set it in the config file. The exit code will count.</p>
+
+<ul>
+<li><code>script &quot;/var/my.script&quot;</code></li>
+<li><code>script &quot;ifconfig tap0&quot;</code></li>
+<li><code>script &quot;pidof mysqld</code></li>
+<li>&hellip;</li>
+</ul>
+
+<h3 id="notification-script">notification script</h3>
+
+<p>Being notified when a cluster changes its config is a good thing and we want to &ldquo;ab&rdquo;use this.</p>
+
+<blockquote>
+<p>keepalived.conf</p>
+
+<pre><code>vrrp_script chk_proxy {
+        script &quot;[ `curl http://localhost:8080/check` = 'ok' ]&quot;
+        interval 2
+        weight 2
+}
+
+vrrp_instance VI_1 {
+        interface eth1
+        state MASTER
+        virtual_router_id 201
+        priority 100
+        virtual_ipaddress {
+            192.168.60.100/24
+        }
+        track_script {
+            chk_proxy
+        }
+        notify /usr/local/bin/keepalivednotify.sh
+}
+</code></pre>
+
+<p>/usr/local/bin/keepalivednotify.sh</p>
+
+<pre><code>!/bin/bash
+
+# $1 = “GROUP” or “INSTANCE”
+# $2 = name of group or instance
+# $3 = target state of transition (“MASTER”, “BACKUP”, “FAULT”)
+
+TYPE=$1
+NAME=$2
+STATE=$3
+HOSTNAME=`hostname`
+TIME=`date`
+
+# scripts doing specific actions, if needed.
+MASTER_SH=&quot;/var/kad_master.sh&quot;
+BACKUP_SH=&quot;/var/kad_backup.sh&quot;
+FAULTY_SH=&quot;/var/kad_faulty.sh&quot;
+
+# notify syslog 
+logger -t kad.notify &quot;vrrp $NAME ($TYPE) on $HOSTNAME changed his state to $STATE on $TIME&quot;
+
+# visit mailgun.net for a free account!
+curl -ks --user &quot;api:key-MAILGUN-KEY&quot; \
+    https://api.mailgun.net/v3/brugnara.me/messages \
+    -F from=&quot;KeepAliveD &lt;keepalived@brugnara.me&gt;&quot; \
+    -F to=teamdev@brugnara.me \
+    -F subject=&quot;[KeepAliveD] $HOSTNAME - $NAME is now $STATE&quot; \
+    -F text=&quot;vrrp $NAME ($TYPE) on $HOSTNAME changed his state to $STATE on $TIME&quot;
+
+case $STATE in
+        &quot;MASTER&quot;)
+                  if [ -f $MASTER_SH ]; then
+                    /bin/bash $MASTER_SH
+                  fi
+                  exit 0
+                  ;;
+        &quot;BACKUP&quot;) if [ -f $BACKUP_SH ]; then
+                    /bin/bash $BACKUP_SH
+                  fi
+                  exit 0
+                  ;;
+        &quot;FAULT&quot;)  if [ -f $FAULTY_SH ]; then
+                    /bin/bash $FAULTY_SH
+                  fi
+                  exit 0
+                  ;;
+        *)        echo &quot;unknown state&quot;
+                  exit 1
+                  ;;
+esac
+</code></pre>
+</blockquote>
+
+<p>For me it&rsquo;s very useful to take more actions regarding the KeepAliveD status, so here&rsquo;s what they do, just as a share. May not be required for your server farm.</p>
+
+<blockquote>
+<p>/var/kad_master.sh</p>
+
+<pre><code>ifconfig tap0 up
+brctl addif br0 tap0 eth1
+ifconfig br0 up
+</code></pre>
+
+<p>/var/kad_backup.sh</p>
+
+<pre><code>ifconfig tap0 down
+brctl delif br0 tap0 eth1
+ifconfig br0 down
+</code></pre>
+
+<p>/var/kad_faulty.sh</p>
+
+<pre><code>ifconfig tap0 down
+brctl delif br0 tap0 eth1
+ifconfig br0 down
+</code></pre>
+</blockquote>
+
+<p>Thanks to <a href="https://tobrunet.ch/2013/07/keepalived-check-and-notify-scripts/">this blog post</a> and also check <a href="https://www.google.it/url?sa=t&amp;rct=j&amp;q=&amp;esrc=s&amp;source=web&amp;cd=1&amp;cad=rja&amp;uact=8&amp;ved=0ahUKEwjngoSFvKbTAhVGGhQKHcyzCaUQFggjMAA&amp;url=http%3A%2F%2Fwww.keepalived.org%2Fpdf%2FUserGuide.pdf&amp;usg=AFQjCNFMZzJeO1glSPiXRF1SqLRvKO6D0Q&amp;sig2=SMi99aYaTsHF6c51Gd32sw&amp;bvm=bv.152479541,d.bGg">this official manual</a> for more details.</p>
+<ul class="pa0">
+  
+</ul>
+<div class="mt6">
+      
+      
+      </div>
+      <div id="disqus_thread"></div>
+<script>
+
+
+
+
+var disqus_config = function () {
+this.page.url = 'https:\/\/blog.brugnara.me\/2017\/04\/15\/keepalived-virtual-ip-plus-alerting\/';  
+this.page.identifier = 'b95f820a7e50a8a3905f46bf9def441a'; 
+};
+
+(function() { 
+var d = document, s = d.createElement('script');
+s.src = 'https://brugnara.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+    </section>
+
+    <aside class="w-30-l mt6-l">
+
+
+
+
+</aside>
+  </article>
+
+
+    </main>
+    <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
+  <div class="flex justify-between">
+  <a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href="https://blog.brugnara.me/" >
+    &copy; 2019 Advanced DevOps
+  </a>
+    <div>
+
+
+
+
+
+
+
+
+
+
+</div>
+  </div>
+</footer>
+
+    
+
+  <script src="/dist/js/app.3fc0f988d21662902933.js"></script>
+
+
+  </body>
+</html>

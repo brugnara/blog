@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts on Advanced DevOps</title>
+    <link>https://blog.brugnara.me/post/</link>
+    <description>Recent content in Posts on Advanced DevOps</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 03 May 2019 07:45:47 +0000</lastBuildDate>
+    
+	<atom:link href="https://blog.brugnara.me/post/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>disable su on debian</title>
+      <link>https://blog.brugnara.me/2019/05/03/disable-su-on-debian/</link>
+      <pubDate>Fri, 03 May 2019 07:45:47 +0000</pubDate>
+      
+      <guid>https://blog.brugnara.me/2019/05/03/disable-su-on-debian/</guid>
+      <description>is your VM safe enough?  A VM is only safe when it&amp;rsquo;s powered OFF
+ Why? You have prepared your VM with CDD and you want to be sure that changes will be saved on the original ISO so editing a live machine, will not be possible. You are forced to firstly update your versioned CDD/ISO so who will come after you, will be able to exactly understand what and why you did.</description>
+    </item>
+    
+    <item>
+      <title>GNU awk is required for lib/memtype.h made by memtypes.awk. BSD awk complains: awk: gensub doesn&#39;t support backreferences (subst &#34;\1&#34;)</title>
+      <link>https://blog.brugnara.me/2017/04/18/gnu-awk-is-required-for-lib/memtype.h-made-by-memtypes.awk.-bsd-awk-complains-awk-gensub-doesnt-support-backreferences-subst-%5C1/</link>
+      <pubDate>Tue, 18 Apr 2017 05:54:25 +0000</pubDate>
+      
+      <guid>https://blog.brugnara.me/2017/04/18/gnu-awk-is-required-for-lib/memtype.h-made-by-memtypes.awk.-bsd-awk-complains-awk-gensub-doesnt-support-backreferences-subst-%5C1/</guid>
+      <description>This error is given when you try to compile quagga.
+The easy solution is to
+ tested with Debian 8 and Quagga 1.2.1
+ apt-get install -y gawk  Compile quagga If you need more help, here&amp;rsquo;s the list of the needed dependencies to compile correctly.
+apt-get install -y build-essential gawk libreadline-dev pkg-config libc-ares-dev  After this, a simple
+./configure [options] make &amp;amp;&amp;amp; make install  will do the rest.</description>
+    </item>
+    
+    <item>
+      <title>keepalived, virtual IP plus alerting</title>
+      <link>https://blog.brugnara.me/2017/04/15/keepalived-virtual-ip-plus-alerting/</link>
+      <pubDate>Sat, 15 Apr 2017 10:10:58 +0000</pubDate>
+      
+      <guid>https://blog.brugnara.me/2017/04/15/keepalived-virtual-ip-plus-alerting/</guid>
+      <description>KeepAliveD is a tool you should learn as soon as possible. You are going to need this wonderful instrument and its magnificent powers.
+All starts with a a simple apt-get install keepalived and continues with a very short configuration needed.
+requirements Create two Debian 8 VM on the same network.
+ debianA: 192.168.60.101&amp;frasl;24 debianB: 192.168.60.102&amp;frasl;24  Your firewall must allow VRRP protocol communication between clients on the same subnet.</description>
+    </item>
+    
+    <item>
+      <title>DD, monitor current status and speed</title>
+      <link>https://blog.brugnara.me/2017/04/15/dd-monitor-current-status-and-speed/</link>
+      <pubDate>Sat, 15 Apr 2017 09:31:39 +0000</pubDate>
+      
+      <guid>https://blog.brugnara.me/2017/04/15/dd-monitor-current-status-and-speed/</guid>
+      <description>One of the most useful command in Linux, is dd. We also know that dd provides info regarding the current status, using kill:
+kill -USR1 &amp;lt;pidof dd&amp;gt;  but I really prefer the pv way (apt-get install pv)
+# We usually do this way dd if=my.iso of=/dev/sdb # This is the &amp;quot;pv&amp;quot; way dd if=my.iso | pv | dd of=/dev/sdb  Of course, you need apt-get install -y pv before, but piping through pv, allow you to see the status, in real time.</description>
+    </item>
+    
+    <item>
+      <title>openvpn, tap vs tun, differences</title>
+      <link>https://blog.brugnara.me/2017/04/15/openvpn-tap-vs-tun-differences/</link>
+      <pubDate>Sat, 15 Apr 2017 09:05:39 +0000</pubDate>
+      
+      <guid>https://blog.brugnara.me/2017/04/15/openvpn-tap-vs-tun-differences/</guid>
+      <description>While creating an OpenVPN server you should think what you are going to use it for.
+Long story short Use tap for a layer 2 vpn, tun for a layer 3.
+tap Tap is a virtual eth interface and, you will be able to put the interface tap0 into a bridge:
+apt-get install bridge-utils brctl addbr br0 brctl addif br0 tap0 eth0  tun Tun is for a direct IP connection between two points.</description>
+    </item>
+    
+    <item>
+      <title>debian preseed, prompt user input</title>
+      <link>https://blog.brugnara.me/2017/04/15/debian-preseed-prompt-user-input/</link>
+      <pubDate>Sat, 15 Apr 2017 08:49:10 +0000</pubDate>
+      
+      <guid>https://blog.brugnara.me/2017/04/15/debian-preseed-prompt-user-input/</guid>
+      <description>Debian preseed As I told in a previous article, preseeding is very useful, you can do many stuff without the need of an external system like Puppet o Chef.
+A problem I encountered while preseeding our farm, was to ask user just some input or to confirm it.
+The solution is very simple but not well documented and after a bit of research, I found the way.
+# preseeding the value, this will not be asked.</description>
+    </item>
+    
+    <item>
+      <title>Advanced provisioning with simple-cdd and git</title>
+      <link>https://blog.brugnara.me/2017/03/18/advanced-provisioning-with-simple-cdd-and-git/</link>
+      <pubDate>Sat, 18 Mar 2017 16:44:16 +0000</pubDate>
+      
+      <guid>https://blog.brugnara.me/2017/03/18/advanced-provisioning-with-simple-cdd-and-git/</guid>
+      <description>Installing machines, is now more easy, as seen in my previous article.
+What happens if we want to update a configuration? If we only rely to the simple-cdd way, we are going to rebuild the iso and reinstall our VMs, which is not we always want to do.
+In my case, I have found many tools able to achieve this goal. Chef, PuppetLabs are just two of those. Do you really want to use something you need to learn?</description>
+    </item>
+    
+    <item>
+      <title>dhcpd, name your machines</title>
+      <link>https://blog.brugnara.me/2017/03/18/dhcpd-name-your-machines/</link>
+      <pubDate>Sat, 18 Mar 2017 16:17:40 +0000</pubDate>
+      
+      <guid>https://blog.brugnara.me/2017/03/18/dhcpd-name-your-machines/</guid>
+      <description>As seen in my previous blog post, provisioning machines is quite simple, but the hostname must be unique, so we want an automatic way to configure it.
+installation of a dhcpd This is not what I want to share, you will find here the how-to.
+dhcpd.conf option domain-name-servers 8.8.8.8, 8.8.4.4; option domain-name &amp;quot;brugnara.me&amp;quot;; default-lease-time 600; max-lease-time 7200; # Show that we want to be the only DHCP server in this network: authoritative; subnet 192.</description>
+    </item>
+    
+    <item>
+      <title>Proxmox net card association with udev</title>
+      <link>https://blog.brugnara.me/2017/03/18/proxmox-net-card-association-with-udev/</link>
+      <pubDate>Sat, 18 Mar 2017 16:08:03 +0000</pubDate>
+      
+      <guid>https://blog.brugnara.me/2017/03/18/proxmox-net-card-association-with-udev/</guid>
+      <description>udev eth association with Proxmox If you are here, you may have the same problem as I encountered. The way you create net card in Proxmox, is not predictable in linux. If you have seen my article about simple-cdd, you may better understand why we solved this way.
+udev works with address Yes. It is. But it works with regular expressions, so we can use for our goal. How? Check this base.</description>
+    </item>
+    
+    <item>
+      <title>simple-cdd. A way to provision you machines effortless</title>
+      <link>https://blog.brugnara.me/2017/03/18/simple-cdd.-a-way-to-provision-you-machines-effortless/</link>
+      <pubDate>Sat, 18 Mar 2017 15:56:17 +0000</pubDate>
+      
+      <guid>https://blog.brugnara.me/2017/03/18/simple-cdd.-a-way-to-provision-you-machines-effortless/</guid>
+      <description>What is simple-cdd As you can read here, simple-cdd simply is a limited, though relatively easy to use tool to create a customized DebianInstaller CD.
+It is a wrapper around debian-cd and mirroring tools used to create a customized DebianInstaller CD image. It takes a list of packages to install, and debconf pre-seeding files to pre-configure the installation. It has some support for multiple profiles and custom post-install scripts for things that can&amp;rsquo;t be configured by debconf preseeding.</description>
+    </item>
+    
+    <item>
+      <title>High Availability</title>
+      <link>https://blog.brugnara.me/2017/02/11/high-availability/</link>
+      <pubDate>Sat, 11 Feb 2017 07:50:17 +0000</pubDate>
+      
+      <guid>https://blog.brugnara.me/2017/02/11/high-availability/</guid>
+      <description>Having a good software is not enough. Just ask GitLab IT guys about what recently happened.
+Intro Speaking about a production environment, you can not trust your servers. Never trust your system.
+Every single service must be in HA. But, what is HA?
+This short post, will introduce you to HA, this is not a full guide but a simple use case explanation.
+HA in a nutshell HA is when you have at least two resources, working alone or together.</description>
+    </item>
+    
+    <item>
+      <title>Are microservices bad?</title>
+      <link>https://blog.brugnara.me/2017/01/31/are-microservices-bad/</link>
+      <pubDate>Tue, 31 Jan 2017 09:54:43 +0000</pubDate>
+      
+      <guid>https://blog.brugnara.me/2017/01/31/are-microservices-bad/</guid>
+      <description>One of the most recurring argument on the web about DevOps, is microservices and how useful those are.
+But.. Microservices are good! It only depends how many they are and how much time you plan to allocate maintaining them. We had about ten microservices. Each one doing something very specific.
+A good application, in my opinion, is for large business where you have different IT departments, also maybe with different knowledges.</description>
+    </item>
+    
+    <item>
+      <title>Ghost. A fresh start</title>
+      <link>https://blog.brugnara.me/2017/01/28/ghost.-a-fresh-start/</link>
+      <pubDate>Sat, 28 Jan 2017 08:13:13 +0000</pubDate>
+      
+      <guid>https://blog.brugnara.me/2017/01/28/ghost.-a-fresh-start/</guid>
+      <description>As first post for this new tech blog, I am going to introduce you on how to install Ghost on you very own server, with Docker.
+Introduction I always create a start.sh for each container I want to start, with all the properties in place. This allow me to backup with git, all my containers configuration scripts.
+Folder structure mkdir starters/ghost &amp;amp;&amp;amp; cd $_ mkdir data &amp;amp;&amp;amp; touch config.js start.</description>
+    </item>
+    
+  </channel>
+</rss>

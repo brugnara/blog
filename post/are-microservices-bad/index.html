@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>Are microservices bad?</title>
+		<link rel="alternate" type="application/rss+xml" title="RSS" href="http://example.org/index.xml">
+		<link rel="canonical" href="http://example.org/post/are-microservices-bad/">
+		
+		<link rel="shortcut icon" type="image/png" href="http://example.org/apple-touch-icon-precomposed.png">
+		
+		
+		<meta name="generator" content="Hugo 0.58.3" />
+
+		
+		<meta property="og:title" content="Are microservices bad?" />
+		<meta property="og:type" content="article" />
+		<meta property="og:image" content="http://example.org/img/default-header-img.jpg" />
+		<meta property="og:description" content="" />
+		<meta property="og:url" content="http://example.org/post/are-microservices-bad/" />
+		<meta property="og:site_name" content="Are microservices bad?" />
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:site" content="@" />
+
+
+		
+		<link rel="stylesheet" href="http://example.org/css/tachyons.min.css" />
+		<link rel="stylesheet" href="http://example.org/css/story.css" />
+		<link rel="stylesheet" href="http://example.org/css/descartes.css" />
+		
+		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+		<link href="https://fonts.googleapis.com/css?family=Quattrocento+Sans:400,400i,700,700i|Quattrocento:400,700|Spectral:400,400i,700,700i&amp;subset=latin-ext" rel="stylesheet">
+		
+
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+		
+		<script src="http://example.org/js/story.js"></script>
+
+	</head>
+	<body class="ma0 bg-white section-post page-kind-page is-page-true ">
+		
+		<header class="cover bg-top" style="background-image: url('http://example.org/img/default-header-img.jpg'); background-position: center;">
+			<div class="bg-black-30 bb bt">
+
+				<nav class="hide-print sans-serif  border-box pa3 ph5-l">
+					<a href="http://example.org/" title="Home">
+						<img src="http://example.org/img/logo.jpg" class="w2 h2 br-100" alt="My New Hugo Site" />
+					</a>
+					<div class="fr h2 pv2 tr">
+						<a class="link f5 ml2 dim near-white fas fa-rss-square" href="http://example.org/index.xml" title="RSS Feed"></a>
+						<a class="link f5 ml2 dim near-white fas fa-search" href="http://example.org/search/" role="search" title="Search"></a>
+					</div>
+				</nav>
+
+				<div id="hdr" class="tc-l pv4-ns pv5-l pv2 ph3 ph4-ns">
+					<h1 class="near-white mt1-ns f2 fw3 mb0 mt0 lh-title">Are microservices bad?</h1>
+					<h2 class="near-white mt3-l mb4-l fw1 f6 f3-l measure-wide-l center lh-copy mt2 mb3">
+						
+						
+							
+								Published
+								<time datetime="2017-01-31T09:54:43Z">Jan 31, 2017</time>
+								<span class="display-print">by Daniele Brugnara</span>
+								
+								<span class="display-print">at http://example.org/post/are-microservices-bad/</span>
+							
+						
+					</h2>
+				</div>
+
+				
+				
+				
+				
+
+			</div>
+		</header>
+		
+		<main role="main">
+		
+<article class="center bg-white br-3 pv1 ph4 lh-copy f5 nested-links mw7">
+	
+
+<p>One of the most recurring argument on the web about DevOps, is microservices and how useful those are.</p>
+
+<h2 id="but-microservices-are-good">But.. Microservices are good!</h2>
+
+<p>It only depends how many they are and how much time you plan to allocate maintaining them. We had about ten microservices. Each one doing something very specific.</p>
+
+<p>A good application, in my opinion, is for large business where you have different IT departments, also maybe with different knowledges. You can afford to have a server in Java and another in NodeJS, for example.</p>
+
+<h2 id="maintaining-microservices">Maintaining microservices</h2>
+
+<p>In a team where you have many developers, you will be easily able to solve bugs and upgrade modules when security patch are released.</p>
+
+<p>If your company has only a few developers, microservices are very bad. The time you put gluing pieces together is too much and the result is a slow process in delivery your software.</p>
+
+<h2 id="ha">HA</h2>
+
+<p>You have to think about this. Clustering many services needs more hardware resources and obviously, not for free. I will write a specific post about this.</p>
+
+<h2 id="reality">Reality</h2>
+
+<p>You may not have many developers. If is this the case, there is no need to split the code into many pieces. Separating concerns is good but excessive fragmentation easily become the bad.</p>
+
+<p>Sometimes you have to patch a dozen of microservices just because a new security fix for a package you use on every single service, came out. This is very time consuming and time is money, full stop.</p>
+
+<p>We had a dozen of microservices in production. Patched them many times. Spent a lot of time in maintenance.</p>
+
+<p>Discovering how many services we had, was a very «funny» and expensive task. As an addition, each developer wrote the code in the best way in that moment was good to, but that way was not good for the the rest of the services, leaved unmaintained for months, becoming the ugly service-no-one-want-to-put-his/her-hands-on just because the framework used was not funny anymore.</p>
+
+<p>If you like, read this article to better understand how it feels writing Javascript. <a href="https://hackernoon.com/how-it-feels-to-learn-javascript-in-2016-d3a717dd577f#.rgiji2j7d)">https://hackernoon.com/how-it-feels-to-learn-javascript-in-2016-d3a717dd577f#.rgiji2j7d)</a></p>
+
+<h3 id="we-some-months-ago">We, some months ago</h3>
+
+<p>Here&rsquo;s a list of services we had in production, each with a different NodeJS version, each with a different framework, many without framework, just code put together:</p>
+
+<ul>
+<li>login</li>
+<li>signup</li>
+<li>portal</li>
+<li>portal-legacy (for some old partner, ruby made)</li>
+<li>dashboard (ruby made)</li>
+<li>radius-to-our-services connector</li>
+<li>proximity framework</li>
+<li>statistics calculator</li>
+</ul>
+
+<h2 id="we-now-a-monolithic-core">We, now: a monolithic core</h2>
+
+<p>The right solution for us, was to put all services together. As a result, we now have a unique entry point for our services doing all we need. It&rsquo;s easy to fix bugs, just because the framework is one, well known and documented. Understood how it works, you can easily put your hands in every single part of it.</p>
+
+<p>As a result of many months of refactoring, we now have a super-tested core, with many modules, each of those, is using the same paradigm and this is good.</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>Microservices are not as bad as you think but can easily drive you in hell, so be careful and think twice before splitting your codebase.</p>
+
+</article>
+
+		</main>
+		
+				<div class="hide-print sans-serif f6 f5-l mt5 ph3 pb6 center nested-copy-line-height lh-copy nested-links mw-100 measure-wide">
+		<div class="about-the-author">
+		
+			
+			
+				
+					
+				
+			
+		
+		</div>
+		
+	</div>
+
+		
+		
+		
+		<footer class="hide-print sans-serif f6 fw1 bg-black near-white bottom-0 w-100 pa3" role="contentinfo">
+			<p class="w-50 fr tr">
+			<a class="no-underline near-white" href="https://github.com/xaprb/story"><img class="dib" title="Made with Hugo and Story" alt="Story logo" src="http://example.org/img/story-logo-white.svg" style="width: 1.5rem; height: 1.5rem" /></a>
+			</p>
+			<p class="w-50 near-white">
+				&copy; 2019 
+			</p>
+		</footer>
+		
+	
+	
+	</body>
+</html>

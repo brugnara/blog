@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>High Availability</title>
+		<link rel="alternate" type="application/rss+xml" title="RSS" href="http://example.org/index.xml">
+		<link rel="canonical" href="http://example.org/post/high-availability/">
+		
+		<link rel="shortcut icon" type="image/png" href="http://example.org/apple-touch-icon-precomposed.png">
+		
+		
+		<meta name="generator" content="Hugo 0.58.3" />
+
+		
+		<meta property="og:title" content="High Availability" />
+		<meta property="og:type" content="article" />
+		<meta property="og:image" content="http://example.org/img/default-header-img.jpg" />
+		<meta property="og:description" content="" />
+		<meta property="og:url" content="http://example.org/post/high-availability/" />
+		<meta property="og:site_name" content="High Availability" />
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:site" content="@" />
+
+
+		
+		<link rel="stylesheet" href="http://example.org/css/tachyons.min.css" />
+		<link rel="stylesheet" href="http://example.org/css/story.css" />
+		<link rel="stylesheet" href="http://example.org/css/descartes.css" />
+		
+		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+		<link href="https://fonts.googleapis.com/css?family=Quattrocento+Sans:400,400i,700,700i|Quattrocento:400,700|Spectral:400,400i,700,700i&amp;subset=latin-ext" rel="stylesheet">
+		
+
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+		
+		<script src="http://example.org/js/story.js"></script>
+
+	</head>
+	<body class="ma0 bg-white section-post page-kind-page is-page-true ">
+		
+		<header class="cover bg-top" style="background-image: url('http://example.org/img/default-header-img.jpg'); background-position: center;">
+			<div class="bg-black-30 bb bt">
+
+				<nav class="hide-print sans-serif  border-box pa3 ph5-l">
+					<a href="http://example.org/" title="Home">
+						<img src="http://example.org/img/logo.jpg" class="w2 h2 br-100" alt="My New Hugo Site" />
+					</a>
+					<div class="fr h2 pv2 tr">
+						<a class="link f5 ml2 dim near-white fas fa-rss-square" href="http://example.org/index.xml" title="RSS Feed"></a>
+						<a class="link f5 ml2 dim near-white fas fa-search" href="http://example.org/search/" role="search" title="Search"></a>
+					</div>
+				</nav>
+
+				<div id="hdr" class="tc-l pv4-ns pv5-l pv2 ph3 ph4-ns">
+					<h1 class="near-white mt1-ns f2 fw3 mb0 mt0 lh-title">High Availability</h1>
+					<h2 class="near-white mt3-l mb4-l fw1 f6 f3-l measure-wide-l center lh-copy mt2 mb3">
+						
+						
+							
+								Published
+								<time datetime="2017-02-11T07:50:17Z">Feb 11, 2017</time>
+								<span class="display-print">by Daniele Brugnara</span>
+								
+								<span class="display-print">at http://example.org/post/high-availability/</span>
+							
+						
+					</h2>
+				</div>
+
+				
+				
+				
+				
+
+			</div>
+		</header>
+		
+		<main role="main">
+		
+<article class="center bg-white br-3 pv1 ph4 lh-copy f5 nested-links mw7">
+	
+
+<p>Having a good software is not enough. Just ask GitLab IT guys about <a href="https://docs.google.com/document/d/1GCK53YDcBWQveod9kfzW-VCxIABGiryG7_z_6jHdVik/pub">what recently happened</a>.</p>
+
+<h2 id="intro">Intro</h2>
+
+<p>Speaking about a production environment, you can not trust your servers. Never trust your system.</p>
+
+<p>Every single service must be in HA. But, what is HA?</p>
+
+<p>This short post, will introduce you to HA, this is not a full guide but a simple use case explanation.</p>
+
+<h2 id="ha-in-a-nutshell">HA in a nutshell</h2>
+
+<p>HA is when you have at least two resources, working alone or together. The goal is to have al least one working resource if one fails.</p>
+
+<p>You can provide HA in different ways, choose the one you prefer depending on your situation and knowledges, here&rsquo;s a short list</p>
+
+<ul>
+<li>shared IP</li>
+<li>load balancer</li>
+<li>live migration</li>
+</ul>
+
+<h2 id="the-best-ha-solution">The best HA solution</h2>
+
+<p>There is not a best solution that fits each case. You have to understand what is best for you and read the documentation, first.</p>
+
+<h2 id="real-application">Real application</h2>
+
+<p>When you have to deploy, you have to guarantee your customers to not have downtime. For a zero downtime deploy, you have to rely on HA. In our server farm, we have two servers for our api service. Those servers are in a round-robin configuration, handled by a shared IP HAproxy. When an api server is shutted down, HAproxy sends all the requests to the one server alive. Then the server is started with the new version, and requests are sent to both servers again. After a few seconds, we shut down the other one and the circle is closed with no downtime.</p>
+
+<p>All this process is handled with a simple deploy script. We are planning to move to Jenkins, but for now a simple bash fits as a fiddle.</p>
+
+<h2 id="microservices">Microservices</h2>
+
+<p>As I told in a previous post, if you want to split the codebase in many microservices, you also have to think about HA them.</p>
+
+<h2 id="haproxy">HAproxy</h2>
+
+<p>Here&rsquo;s an example for a round-robin configuration for a web service, with a third server as backup. The <code>backup</code> is used only if both <code>server01</code> and <code>server02</code> are down.</p>
+
+<pre><code>backend sms.freeluna.it
+  mode http
+  server server01.brugnara.me 192.168.10.51:8080 check port 8080
+  server server02.brugnara.me 192.168.10.52:8080 check port 8080
+  server backup01.brugnara.me 192.168.10.151:8080 check port 8080 backup
+  balance roundrobin
+  option forwardfor
+  option httpclose
+  option http-server-close
+  option httpchk GET /alive HTTP/1.1
+</code></pre>
+
+</article>
+
+		</main>
+		
+				<div class="hide-print sans-serif f6 f5-l mt5 ph3 pb6 center nested-copy-line-height lh-copy nested-links mw-100 measure-wide">
+		<div class="about-the-author">
+		
+			
+			
+				
+					
+				
+			
+		
+		</div>
+		
+	</div>
+
+		
+		
+		
+		<footer class="hide-print sans-serif f6 fw1 bg-black near-white bottom-0 w-100 pa3" role="contentinfo">
+			<p class="w-50 fr tr">
+			<a class="no-underline near-white" href="https://github.com/xaprb/story"><img class="dib" title="Made with Hugo and Story" alt="Story logo" src="http://example.org/img/story-logo-white.svg" style="width: 1.5rem; height: 1.5rem" /></a>
+			</p>
+			<p class="w-50 near-white">
+				&copy; 2019 
+			</p>
+		</footer>
+		
+	
+	
+	</body>
+</html>

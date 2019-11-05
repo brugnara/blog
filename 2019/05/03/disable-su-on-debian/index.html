@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <title>Advanced DevOps  | disable su on debian</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="generator" content="Hugo 0.58.3" />
+    
+    
+      <META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
+    
+
+    
+    
+      <link href="/dist/css/app.d98f2eb6bcd1eaedb7edf166bd16af26.css" rel="stylesheet">
+    
+
+    
+
+    
+      
+    
+
+    
+    
+    <meta property="og:title" content="disable su on debian" />
+<meta property="og:description" content="is your VM safe enough?  A VM is only safe when it&rsquo;s powered OFF
+ Why? You have prepared your VM with CDD and you want to be sure that changes will be saved on the original ISO so editing a live machine, will not be possible. You are forced to firstly update your versioned CDD/ISO so who will come after you, will be able to exactly understand what and why you did." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://blog.brugnara.me/2019/05/03/disable-su-on-debian/" />
+<meta property="article:published_time" content="2019-05-03T07:45:47+00:00" />
+<meta property="article:modified_time" content="2019-05-03T07:45:47+00:00" />
+<meta itemprop="name" content="disable su on debian">
+<meta itemprop="description" content="is your VM safe enough?  A VM is only safe when it&rsquo;s powered OFF
+ Why? You have prepared your VM with CDD and you want to be sure that changes will be saved on the original ISO so editing a live machine, will not be possible. You are forced to firstly update your versioned CDD/ISO so who will come after you, will be able to exactly understand what and why you did.">
+
+
+<meta itemprop="datePublished" content="2019-05-03T07:45:47&#43;00:00" />
+<meta itemprop="dateModified" content="2019-05-03T07:45:47&#43;00:00" />
+<meta itemprop="wordCount" content="243">
+
+
+
+<meta itemprop="keywords" content="" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="disable su on debian"/>
+<meta name="twitter:description" content="is your VM safe enough?  A VM is only safe when it&rsquo;s powered OFF
+ Why? You have prepared your VM with CDD and you want to be sure that changes will be saved on the original ISO so editing a live machine, will not be possible. You are forced to firstly update your versioned CDD/ISO so who will come after you, will be able to exactly understand what and why you did."/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+    
+   
+  
+
+  <header>
+    <div class="bg-black">
+      <nav class="pv3 ph3 ph4-ns" role="navigation">
+  <div class="flex-l justify-between items-center center">
+    <a href="https://blog.brugnara.me/" class="f3 fw2 hover-white no-underline white-90 dib">
+      Advanced DevOps
+    </a>
+    <div class="flex-l items-center">
+      
+
+      
+      
+
+
+
+
+
+
+
+
+
+
+
+    </div>
+  </div>
+</nav>
+
+    </div>
+  </header>
+
+
+
+    <main class="pb7" role="main">
+      
+  
+  <article class="flex-l flex-wrap justify-between mw8 center ph3">
+
+    <header class="mt4 w-100">
+      <p class="f6 b helvetica tracked">
+          
+        POSTS
+      </p>
+      <h1 class="f1 athelas mb1">disable su on debian</h1>
+      
+      <p class="tracked">
+         By <strong>Daniele Brugnara</strong>
+      </p>
+      
+      
+      <time class="f6 mv4 dib tracked" datetime="2019-05-03T07:45:47Z">May 3, 2019</time>
+      
+      
+    </header>
+
+    <section class="nested-copy-line-height lh-copy serif f4 nested-links nested-img mid-gray pr4-l w-two-thirds-l">
+
+<h2 id="is-your-vm-safe-enough">is your VM safe enough?</h2>
+
+<blockquote>
+<p>A VM is only safe when it&rsquo;s powered OFF</p>
+</blockquote>
+
+<h2 id="why">Why?</h2>
+
+<p>You have <a href="/2017/03/18/simple-cdd-a-way-to-provision-you-machines-effortless/">prepared your VM with CDD</a> and you want to be sure that changes will be saved on the original ISO so editing a live machine, will not be possible. You are forced to firstly update your versioned CDD/ISO so who will come after you, will be able to exactly understand what and why you did.</p>
+
+<p>In my opinion, the minimal and obvious thing required for a production server, is to disable <code>root</code> user login. This happens by default on many recent distros and it is quite useful but the &ldquo;default&rdquo; user may be able to execute commands via <code>sudo</code>, so let&rsquo;s protect against this unwanted behavior.</p>
+
+<h2 id="how">How?</h2>
+
+<pre><code class="language-bash">sudo apt purge sudo
+</code></pre>
+
+<p>Be aware that if you followed my CDD guide you may have disabled root login so <code>su</code> will not work.</p>
+
+<p>After this command, no more root commands are permitted.</p>
+
+<h2 id="do-i-need-to-reinstall-for-update-something">Do I need to reinstall for update something?</h2>
+
+<p>It really depends on what you want to update. In my opinion, changing something little, like a configuration, could be handled with a <a href="/2017/03/18/advanced-provisioning-with-simple-cdd-and-git/">simple GIT provisioning system</a>.</p>
+
+<p>For something more complex, it could be safer if you edit the original ISO and reinstall the SO, this because you will always have a working &ldquo;plug-and-play&rdquo; ISO that will just work after a fresh install. Just think about a disaster recovery (es: a non repairable RAID that fu**ed the server..)</p>
+<ul class="pa0">
+  
+</ul>
+<div class="mt6">
+      
+      
+      </div>
+      <div id="disqus_thread"></div>
+<script>
+
+
+
+
+var disqus_config = function () {
+this.page.url = 'https:\/\/blog.brugnara.me\/2019\/05\/03\/disable-su-on-debian\/';  
+this.page.identifier = 'a3e0a13ba30ca3a026431e464e3a19bd'; 
+};
+
+(function() { 
+var d = document, s = d.createElement('script');
+s.src = 'https://brugnara.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+    </section>
+
+    <aside class="w-30-l mt6-l">
+
+
+
+
+</aside>
+  </article>
+
+
+    </main>
+    <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
+  <div class="flex justify-between">
+  <a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href="https://blog.brugnara.me/" >
+    &copy; 2019 Advanced DevOps
+  </a>
+    <div>
+
+
+
+
+
+
+
+
+
+
+</div>
+  </div>
+</footer>
+
+    
+
+  <script src="/dist/js/app.3fc0f988d21662902933.js"></script>
+
+
+  </body>
+</html>

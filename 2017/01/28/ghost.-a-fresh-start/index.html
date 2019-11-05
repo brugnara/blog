@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <title>Advanced DevOps  | Ghost. A fresh start</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="generator" content="Hugo 0.58.3" />
+    
+    
+      <META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
+    
+
+    
+    
+      <link href="/dist/css/app.d98f2eb6bcd1eaedb7edf166bd16af26.css" rel="stylesheet">
+    
+
+    
+
+    
+      
+    
+
+    
+    
+    <meta property="og:title" content="Ghost. A fresh start" />
+<meta property="og:description" content="As first post for this new tech blog, I am going to introduce you on how to install Ghost on you very own server, with Docker.
+Introduction I always create a start.sh for each container I want to start, with all the properties in place. This allow me to backup with git, all my containers configuration scripts.
+Folder structure mkdir starters/ghost &amp;&amp; cd $_ mkdir data &amp;&amp; touch config.js start." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://blog.brugnara.me/2017/01/28/ghost.-a-fresh-start/" />
+<meta property="article:published_time" content="2017-01-28T08:13:13+00:00" />
+<meta property="article:modified_time" content="2017-01-28T08:13:13+00:00" />
+<meta itemprop="name" content="Ghost. A fresh start">
+<meta itemprop="description" content="As first post for this new tech blog, I am going to introduce you on how to install Ghost on you very own server, with Docker.
+Introduction I always create a start.sh for each container I want to start, with all the properties in place. This allow me to backup with git, all my containers configuration scripts.
+Folder structure mkdir starters/ghost &amp;&amp; cd $_ mkdir data &amp;&amp; touch config.js start.">
+
+
+<meta itemprop="datePublished" content="2017-01-28T08:13:13&#43;00:00" />
+<meta itemprop="dateModified" content="2017-01-28T08:13:13&#43;00:00" />
+<meta itemprop="wordCount" content="420">
+
+
+
+<meta itemprop="keywords" content="" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Ghost. A fresh start"/>
+<meta name="twitter:description" content="As first post for this new tech blog, I am going to introduce you on how to install Ghost on you very own server, with Docker.
+Introduction I always create a start.sh for each container I want to start, with all the properties in place. This allow me to backup with git, all my containers configuration scripts.
+Folder structure mkdir starters/ghost &amp;&amp; cd $_ mkdir data &amp;&amp; touch config.js start."/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+    
+   
+  
+
+  <header>
+    <div class="bg-black">
+      <nav class="pv3 ph3 ph4-ns" role="navigation">
+  <div class="flex-l justify-between items-center center">
+    <a href="https://blog.brugnara.me/" class="f3 fw2 hover-white no-underline white-90 dib">
+      Advanced DevOps
+    </a>
+    <div class="flex-l items-center">
+      
+
+      
+      
+
+
+
+
+
+
+
+
+
+
+
+    </div>
+  </div>
+</nav>
+
+    </div>
+  </header>
+
+
+
+    <main class="pb7" role="main">
+      
+  
+  <article class="flex-l flex-wrap justify-between mw8 center ph3">
+
+    <header class="mt4 w-100">
+      <p class="f6 b helvetica tracked">
+          
+        POSTS
+      </p>
+      <h1 class="f1 athelas mb1">Ghost. A fresh start</h1>
+      
+      <p class="tracked">
+         By <strong>Daniele Brugnara</strong>
+      </p>
+      
+      
+      <time class="f6 mv4 dib tracked" datetime="2017-01-28T08:13:13Z">January 28, 2017</time>
+      
+      
+    </header>
+
+    <section class="nested-copy-line-height lh-copy serif f4 nested-links nested-img mid-gray pr4-l w-two-thirds-l">
+
+<p>As first post for this new tech blog, I am going to introduce you on how to install Ghost on you very own server, with Docker.</p>
+
+<h1 id="introduction">Introduction</h1>
+
+<p>I always create a <code>start.sh</code> for each container I want to start, with all the properties in place. This allow me to backup with git, all my containers configuration scripts.</p>
+
+<h1 id="folder-structure">Folder structure</h1>
+
+<pre><code>mkdir starters/ghost &amp;&amp; cd $_
+mkdir data &amp;&amp; touch config.js start.sh
+chmod +x start.sh
+</code></pre>
+
+<h1 id="config-js">config.js</h1>
+
+<p>This file contains the needed configurations for Ghost, like <code>email</code> and the most important, the <code>host</code>. If you need more details, check <a href="http://support.ghost.org/config/">this</a>.</p>
+
+<blockquote>
+<p>Be sure to change <code>mail.options.auth.pass</code> and <code>url</code> fields.</p>
+</blockquote>
+
+<pre><code>// # Ghost Configuration
+// Setup your Ghost install for various [environments](http://support.ghost.org/config/#about-environments).
+
+// Ghost runs in `development` mode by default. Full documentation can be found at http://support.ghost.org/config/
+
+var path = require('path'), config;
+
+config = {
+    // ### Production
+    // When running Ghost in the wild, use the production environment.
+    // Configure your URL and mail settings here
+    production: {
+        url: 'http://daniele.brugnara.me',
+        database: {
+            client: 'sqlite3',
+            connection: {
+                filename: path.join(process.env.GHOST_CONTENT, '/data/ghost.db')
+            },
+            debug: false
+        },
+
+        server: {
+            host: '0.0.0.0',
+            port: '2368'
+        },
+
+        mail: {
+              transport: 'SMTP',
+              options: {
+                  service: 'Mailgun',
+                  auth: {
+                      user: 'postmaster@brugnara.me', // mailgun username
+                      pass: '&lt;password here&gt;'  // mailgun password
+                  }
+              }
+        },
+    }
+};
+
+module.exports = config;
+</code></pre>
+
+<h1 id="start-sh">start.sh</h1>
+
+<p>Put the following script in your <code>config.js</code>.</p>
+
+<blockquote>
+<p>replace the port <code>8080</code> with the one you want use.
+do the very same for the <code>--name</code></p>
+</blockquote>
+
+<pre><code>docker run -d \
+  --restart=always \
+  -v $PWD/data:/var/lib/ghost/data \
+  -v $PWD/config.js:/var/lib/ghost/config.js \
+  -p 8080:2368 \
+  --name daniele.brugnara.me \
+  ghost:latest \
+  /bin/bash -c 'npm start --production'
+</code></pre>
+
+<h1 id="first-run">first run</h1>
+
+<p>simple as</p>
+
+<pre><code>./start.sh
+</code></pre>
+
+<p>Check everything is working as expected:</p>
+
+<pre><code>docker logs -f daniele.brugnara.me
+
+&gt; ghost@0.11.4 start /usr/src/ghost
+&gt; node index
+
+Ghost is running in production...
+Your blog is now available on http://daniele.brugnara.me
+Ctrl+C to shut down
+</code></pre>
+
+<h1 id="backup-your-blog">backup your blog</h1>
+
+<p>You can do daily backup the data folder, which contains the <code>ghost.db</code> sqlite database file.</p>
+
+<h1 id="nginx">nginx</h1>
+
+<p>The last thing to do, is to let your Nginx proxy the requests to the backend. This is a simple configuration file you will put in your <code>/etc/nginx/sites-available/yourblog.domain.com</code>. Remember to set <code>server_name</code> with your domain and to set the right port in <code>proxy_pass</code></p>
+
+<pre><code>server {
+  listen                *:80;
+
+  server_name           daniele.brugnara.me;
+
+  access_log            /var/log/nginx/blog.access.log;
+  error_log             /var/log/nginx/blog.error.log;
+
+  location / {
+    proxy_pass http://127.0.0.1:8080;
+    proxy_http_version 1.1;
+    proxy_set_header Upgrade $http_upgrade; 
+    proxy_set_header Connection 'upgrade';
+    proxy_set_header X-Forwarded-For $remote_addr;
+  }
+}
+</code></pre>
+
+<p>Now go to <code>/etc/nginx/sites-enabled/</code> and do</p>
+
+<pre><code>ln -s ../sites-available/yourblog.domain.com yourblog.domain.com
+/etx/init.d/nginx restart
+</code></pre>
+
+<h1 id="dns">DNS</h1>
+
+<p>If not already done, configure your <code>DNS</code> to point to the server&rsquo; public IP.</p>
+<ul class="pa0">
+  
+</ul>
+<div class="mt6">
+      
+      
+      </div>
+      <div id="disqus_thread"></div>
+<script>
+
+
+
+
+var disqus_config = function () {
+this.page.url = 'https:\/\/blog.brugnara.me\/2017\/01\/28\/ghost.-a-fresh-start\/';  
+this.page.identifier = 'c11aed4073c1ce6fc86fb98b6ec83b62'; 
+};
+
+(function() { 
+var d = document, s = d.createElement('script');
+s.src = 'https://brugnara.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+    </section>
+
+    <aside class="w-30-l mt6-l">
+
+
+
+
+</aside>
+  </article>
+
+
+    </main>
+    <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
+  <div class="flex justify-between">
+  <a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href="https://blog.brugnara.me/" >
+    &copy; 2019 Advanced DevOps
+  </a>
+    <div>
+
+
+
+
+
+
+
+
+
+
+</div>
+  </div>
+</footer>
+
+    
+
+  <script src="/dist/js/app.3fc0f988d21662902933.js"></script>
+
+
+  </body>
+</html>

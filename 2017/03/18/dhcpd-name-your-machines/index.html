@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <title>Advanced DevOps  | dhcpd, name your machines</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="generator" content="Hugo 0.58.3" />
+    
+    
+      <META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
+    
+
+    
+    
+      <link href="/dist/css/app.d98f2eb6bcd1eaedb7edf166bd16af26.css" rel="stylesheet">
+    
+
+    
+
+    
+      
+    
+
+    
+    
+    <meta property="og:title" content="dhcpd, name your machines" />
+<meta property="og:description" content="As seen in my previous blog post, provisioning machines is quite simple, but the hostname must be unique, so we want an automatic way to configure it.
+installation of a dhcpd This is not what I want to share, you will find here the how-to.
+dhcpd.conf option domain-name-servers 8.8.8.8, 8.8.4.4; option domain-name &quot;brugnara.me&quot;; default-lease-time 600; max-lease-time 7200; # Show that we want to be the only DHCP server in this network: authoritative; subnet 192." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://blog.brugnara.me/2017/03/18/dhcpd-name-your-machines/" />
+<meta property="article:published_time" content="2017-03-18T16:17:40+00:00" />
+<meta property="article:modified_time" content="2017-03-18T16:17:40+00:00" />
+<meta itemprop="name" content="dhcpd, name your machines">
+<meta itemprop="description" content="As seen in my previous blog post, provisioning machines is quite simple, but the hostname must be unique, so we want an automatic way to configure it.
+installation of a dhcpd This is not what I want to share, you will find here the how-to.
+dhcpd.conf option domain-name-servers 8.8.8.8, 8.8.4.4; option domain-name &quot;brugnara.me&quot;; default-lease-time 600; max-lease-time 7200; # Show that we want to be the only DHCP server in this network: authoritative; subnet 192.">
+
+
+<meta itemprop="datePublished" content="2017-03-18T16:17:40&#43;00:00" />
+<meta itemprop="dateModified" content="2017-03-18T16:17:40&#43;00:00" />
+<meta itemprop="wordCount" content="149">
+
+
+
+<meta itemprop="keywords" content="" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="dhcpd, name your machines"/>
+<meta name="twitter:description" content="As seen in my previous blog post, provisioning machines is quite simple, but the hostname must be unique, so we want an automatic way to configure it.
+installation of a dhcpd This is not what I want to share, you will find here the how-to.
+dhcpd.conf option domain-name-servers 8.8.8.8, 8.8.4.4; option domain-name &quot;brugnara.me&quot;; default-lease-time 600; max-lease-time 7200; # Show that we want to be the only DHCP server in this network: authoritative; subnet 192."/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+    
+   
+  
+
+  <header>
+    <div class="bg-black">
+      <nav class="pv3 ph3 ph4-ns" role="navigation">
+  <div class="flex-l justify-between items-center center">
+    <a href="https://blog.brugnara.me/" class="f3 fw2 hover-white no-underline white-90 dib">
+      Advanced DevOps
+    </a>
+    <div class="flex-l items-center">
+      
+
+      
+      
+
+
+
+
+
+
+
+
+
+
+
+    </div>
+  </div>
+</nav>
+
+    </div>
+  </header>
+
+
+
+    <main class="pb7" role="main">
+      
+  
+  <article class="flex-l flex-wrap justify-between mw8 center ph3">
+
+    <header class="mt4 w-100">
+      <p class="f6 b helvetica tracked">
+          
+        POSTS
+      </p>
+      <h1 class="f1 athelas mb1">dhcpd, name your machines</h1>
+      
+      <p class="tracked">
+         By <strong>Daniele Brugnara</strong>
+      </p>
+      
+      
+      <time class="f6 mv4 dib tracked" datetime="2017-03-18T16:17:40Z">March 18, 2017</time>
+      
+      
+    </header>
+
+    <section class="nested-copy-line-height lh-copy serif f4 nested-links nested-img mid-gray pr4-l w-two-thirds-l">
+
+<p>As seen in my previous <a href="http://daniele.brugnara.me/2017/03/18/simple-cdd-a-way-to-provision-you-machines-effortless/">blog post</a>, provisioning machines is quite simple, but the hostname must be unique, so we want an automatic way to configure it.</p>
+
+<h3 id="installation-of-a-dhcpd">installation of a dhcpd</h3>
+
+<p>This is not what I want to share, you will find <a href="https://wiki.debian.org/DHCP_Server">here the how-to</a>.</p>
+
+<h3 id="dhcpd-conf">dhcpd.conf</h3>
+
+<pre><code>option domain-name-servers 8.8.8.8, 8.8.4.4;
+option domain-name &quot;brugnara.me&quot;;
+
+default-lease-time 600;
+max-lease-time 7200;
+
+# Show that we want to be the only DHCP server in this network:
+
+authoritative;
+
+subnet 192.168.10.0 netmask 255.255.255.0 {
+    range 192.168.10.101 192.168.10.199;
+    option subnet-mask 255.255.255.0;
+    option broadcast-address 192.168.10.255;
+    option routers 192.168.10.1;
+}
+
+host proxy02 {
+  hardware ethernet 00:0D:87:B3:DB:01;
+  fixed-address 192.168.10.142;
+  option host-name &quot;proxy02&quot;;
+}
+</code></pre>
+
+<p>If your machines need to talk each other, you might want to connect your dhcp to your dns server to be able to resolve each hostname setted in the dhcpd.conf file, without replicating the configuration in bind, as an example. I&rsquo;ll argue this in a further article.</p>
+<ul class="pa0">
+  
+</ul>
+<div class="mt6">
+      
+      
+      </div>
+      <div id="disqus_thread"></div>
+<script>
+
+
+
+
+var disqus_config = function () {
+this.page.url = 'https:\/\/blog.brugnara.me\/2017\/03\/18\/dhcpd-name-your-machines\/';  
+this.page.identifier = '91a2b26fdf64af2ede78e13ef67be83d'; 
+};
+
+(function() { 
+var d = document, s = d.createElement('script');
+s.src = 'https://brugnara.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+    </section>
+
+    <aside class="w-30-l mt6-l">
+
+
+
+
+</aside>
+  </article>
+
+
+    </main>
+    <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
+  <div class="flex justify-between">
+  <a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href="https://blog.brugnara.me/" >
+    &copy; 2019 Advanced DevOps
+  </a>
+    <div>
+
+
+
+
+
+
+
+
+
+
+</div>
+  </div>
+</footer>
+
+    
+
+  <script src="/dist/js/app.3fc0f988d21662902933.js"></script>
+
+
+  </body>
+</html>
