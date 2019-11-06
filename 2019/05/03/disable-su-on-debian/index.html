@@ -121,7 +121,7 @@
 
 <h2 id="why">Why?</h2>
 
-<p>You have <a href="/2017/03/18/simple-cdd-a-way-to-provision-you-machines-effortless/">prepared your VM with CDD</a> and you want to be sure that changes will be saved on the original ISO so editing a live machine, will not be possible. You are forced to firstly update your versioned CDD/ISO so who will come after you, will be able to exactly understand what and why you did.</p>
+<p>You have <a href="https://blog.brugnara.me/2017/03/18/simple-cdd.-a-way-to-provision-you-machines-effortless/">prepared your VM with CDD</a> and you want to be sure that changes will be saved on the original ISO so editing a live machine, will not be possible. You are forced to firstly update your versioned CDD/ISO so who will come after you, will be able to exactly understand what and why you did.</p>
 
 <p>In my opinion, the minimal and obvious thing required for a production server, is to disable <code>root</code> user login. This happens by default on many recent distros and it is quite useful but the &ldquo;default&rdquo; user may be able to execute commands via <code>sudo</code>, so let&rsquo;s protect against this unwanted behavior.</p>
 
@@ -136,7 +136,7 @@
 
 <h2 id="do-i-need-to-reinstall-for-update-something">Do I need to reinstall for update something?</h2>
 
-<p>It really depends on what you want to update. In my opinion, changing something little, like a configuration, could be handled with a <a href="/2017/03/18/advanced-provisioning-with-simple-cdd-and-git/">simple GIT provisioning system</a>.</p>
+<p>It really depends on what you want to update. In my opinion, changing something little, like a configuration, could be handled with a <a href="https://blog.brugnara.me/2017/03/18/advanced-provisioning-with-simple-cdd-and-git/">simple GIT provisioning system</a>.</p>
 
 <p>For something more complex, it could be safer if you edit the original ISO and reinstall the SO, this because you will always have a working &ldquo;plug-and-play&rdquo; ISO that will just work after a fresh install. Just think about a disaster recovery (es: a non repairable RAID that fu**ed the server..)</p>
 <ul class="pa0">
