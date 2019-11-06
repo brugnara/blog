@@ -29,7 +29,7 @@
 <meta property="og:description" content="KeepAliveD is a tool you should learn as soon as possible. You are going to need this wonderful instrument and its magnificent powers.
 All starts with a a simple apt-get install keepalived and continues with a very short configuration needed.
 requirements Create two Debian 8 VM on the same network.
- debianA: 192.168.60.101&frasl;24 debianB: 192.168.60.102&frasl;24  Your firewall must allow VRRP protocol communication between clients on the same subnet." />
+ debianA: 192.168.60.101/24 debianB: 192.168.60.102/24  Your firewall must allow VRRP protocol communication between clients on the same subnet." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://blog.brugnara.me/2017/04/15/keepalived-virtual-ip-plus-alerting/" />
 <meta property="article:published_time" content="2017-04-15T10:10:58+00:00" />
@@ -38,7 +38,7 @@ requirements Create two Debian 8 VM on the same network.
 <meta itemprop="description" content="KeepAliveD is a tool you should learn as soon as possible. You are going to need this wonderful instrument and its magnificent powers.
 All starts with a a simple apt-get install keepalived and continues with a very short configuration needed.
 requirements Create two Debian 8 VM on the same network.
- debianA: 192.168.60.101&frasl;24 debianB: 192.168.60.102&frasl;24  Your firewall must allow VRRP protocol communication between clients on the same subnet.">
+ debianA: 192.168.60.101/24 debianB: 192.168.60.102/24  Your firewall must allow VRRP protocol communication between clients on the same subnet.">
 
 
 <meta itemprop="datePublished" content="2017-04-15T10:10:58&#43;00:00" />
@@ -53,7 +53,7 @@ requirements Create two Debian 8 VM on the same network.
 <meta name="twitter:description" content="KeepAliveD is a tool you should learn as soon as possible. You are going to need this wonderful instrument and its magnificent powers.
 All starts with a a simple apt-get install keepalived and continues with a very short configuration needed.
 requirements Create two Debian 8 VM on the same network.
- debianA: 192.168.60.101&frasl;24 debianB: 192.168.60.102&frasl;24  Your firewall must allow VRRP protocol communication between clients on the same subnet."/>
+ debianA: 192.168.60.101/24 debianB: 192.168.60.102/24  Your firewall must allow VRRP protocol communication between clients on the same subnet."/>
 
   </head>
 
@@ -128,8 +128,8 @@ requirements Create two Debian 8 VM on the same network.
 <p>Create two Debian 8 VM on the same network.</p>
 
 <ul>
-<li>debianA: 192.168.60.<sup>101</sup>&frasl;<sub>24</sub></li>
-<li>debianB: 192.168.60.<sup>102</sup>&frasl;<sub>24</sub></li>
+<li>debianA: <code>192.168.60.101/24</code></li>
+<li>debianB: <code>192.168.60.102/24</code></li>
 </ul>
 
 <p>Your firewall must allow <code>VRRP</code> protocol communication between clients on the same subnet.</p>
@@ -275,7 +275,7 @@ MASTER_SH=&quot;/var/kad_master.sh&quot;
 BACKUP_SH=&quot;/var/kad_backup.sh&quot;
 FAULTY_SH=&quot;/var/kad_faulty.sh&quot;
 
-# notify syslog 
+# notify syslog
 logger -t kad.notify &quot;vrrp $NAME ($TYPE) on $HOSTNAME changed his state to $STATE on $TIME&quot;
 
 # visit mailgun.net for a free account!
@@ -335,7 +335,7 @@ ifconfig br0 down
 </code></pre>
 </blockquote>
 
-<p>Thanks to <a href="https://tobrunet.ch/2013/07/keepalived-check-and-notify-scripts/">this blog post</a> and also check <a href="https://www.google.it/url?sa=t&amp;rct=j&amp;q=&amp;esrc=s&amp;source=web&amp;cd=1&amp;cad=rja&amp;uact=8&amp;ved=0ahUKEwjngoSFvKbTAhVGGhQKHcyzCaUQFggjMAA&amp;url=http%3A%2F%2Fwww.keepalived.org%2Fpdf%2FUserGuide.pdf&amp;usg=AFQjCNFMZzJeO1glSPiXRF1SqLRvKO6D0Q&amp;sig2=SMi99aYaTsHF6c51Gd32sw&amp;bvm=bv.152479541,d.bGg">this official manual</a> for more details.</p>
+<p>Thanks to <a href="https://tobrunet.ch/2013/07/keepalived-check-and-notify-scripts/">this blog post</a> and also check <a href="https://www.keepalived.org/pdf/UserGuide.pdf">this official manual</a> for more details.</p>
 <ul class="pa0">
   
 </ul>
